@@ -1,6 +1,4 @@
-﻿planets = {};
-
-class Planet{
+﻿class Planet{
 	constructor(designation, x, y){   //designation, x, y
 	this.designation = designation;
 	this.skin = SPRITE[designation];
@@ -8,6 +6,25 @@ class Planet{
 	this.y = y;
 	this.angle = 0;
 	this.fraction = "planet";
+	}
+	
+	explode(){
+		var spanX = this.skin.naturalWidth;
+		var spanY = this.skin.naturalHeight;
+		this.skin = Helon.ress.images.explosion;
+		this.skin.width = spanX;
+		this.skin.height = spanY;
+		Helon.ress.audio.explosion1.play();
+		setTimeout(function(planet){planet.sector.planets.splice(planet.ID(), 1);}, 2000, this);
+		this.explode = function(){};
+	}
+	
+	ID(){
+		for (var id = 0; id < this.sector.planets.length; id++){
+			if (this.sector.planets[id] === this) return id;
+		}
+		console.log("ID not found");
+		return 0;
 	}
 }
 
@@ -45,12 +62,12 @@ class Sector{
 	
 	addPlanet(designation, x, y){
 		var neuerPlanet = new Planet(designation, x, y);
-		neuerPlanet.sector = this.bg;
+		neuerPlanet.sector = this;
 		for (var pla = 0; pla < this.planets.length; pla++){
 			if (this.planets[pla].designation === neuerPlanet.designation) return;
 		}
 		this.planets.push(neuerPlanet);
-		planets[designation] = neuerPlanet;
+		Hellaxy.planets[designation] = neuerPlanet;
 	}
 	
 	
@@ -98,6 +115,14 @@ class Sector{
 				}
 			}
 		}
+	}
+	
+	
+	hasShip(fraction){
+		for (var k = 0; k < this.ships.length; k++){
+			if (this.ships[k].fraction === fraction) return true;
+		}
+		return false;
 	}
 	
 	
