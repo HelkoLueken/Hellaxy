@@ -43,11 +43,6 @@ class Location{
 	}
 }
 
-function createLocation(designation, inSector, x, y, width, height){
-	Hellaxy.locations[designation] = new Location(designation, inSector, x, y, width, height);
-}
-
-
 
 function createSector(ID, width, height){
 	Hellaxy.sectors[ID] = new Sector(ID, width, height);
@@ -59,13 +54,29 @@ function setSector(ID){
 }
 
 
+function addPlanet(designation, x, y, inSector){
+	if (inSector === undefined) {
+		inSector = Hellaxy.sector;
+	} else {
+		inSector = Hellaxy.sectors[inSector];
+	}
+	inSector.addPlanet(designation, x, y);
+}
+
+
+function addLocation(designation, x, y, width, height, inSector){
+	if (inSector === undefined) inSector = Hellaxy.sector;
+	inSector.addLocation(designation, x, y, width, height);
+}
+
+
 function spawnAsteroids(posX, posY, width, height, inSector){
 	if (inSector === undefined) inSector = Hellaxy.sector;
-		for (var i = 0; i < width / 80; i++){
-			for (var h = 0; h < height / 80; h++){
-				inSector.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
-			}
+	for (var i = 0; i < width / 80; i++){
+		for (var h = 0; h < height / 80; h++){
+			inSector.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 80 + Math.floor((Math.random() * 50) - 25), posY + h * 80 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
 		}
+	}
 }
 
 
@@ -77,7 +88,8 @@ class Sector{
 		this.bg = SPRITE[ID];
 		this.ships = [];
 		this.planets = [];
-		this.portals = []; 
+		this.portals = [];
+		this.locations = [];
 		this.offset = {x : 0, y : 0};
 		if (Helon.ress.audio["theme_"+ID] !== undefined){
 			this.theme = Helon.ress.audio["theme_"+ID];
@@ -113,7 +125,9 @@ class Sector{
 	
 	
 	addLocation(designation, x, y, width, height){
-		createLocation(designation, this, x, x, width, height);
+		var neueLocation = new Location(designation, this, x, y, width, height);
+		this.locations.push(neueLocation);
+		Hellaxy.locations[designation] = neueLocation;
 	}
 	
 	
@@ -172,7 +186,7 @@ class Sector{
 		for (var h = 0; h < this.portals.length; h++){
 			for (var i = this.portals[h].x; i < this.portals[h].x + this.portals[h].width; i += 100){
 				for (var j = this.portals[h].y; j < this.portals[h].y + this.portals[h].height; j += 100){
-				 Helon.ctx.drawImage(this.portals[h].dest.bg, i - this.offset.x, j - this.offset.y);
+				 Helon.ctx.drawImage(Hellaxy.sectors[this.portals[h].dest].bg, i - this.offset.x, j - this.offset.y);
 				}
 			}
 		}
