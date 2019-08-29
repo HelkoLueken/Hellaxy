@@ -1,27 +1,30 @@
-
 <!DOCTYPE html>
 <html>
 
 <head>
 	<link rel="stylesheet" href="index.css">
-	<script src="tools.js"></script>
-	<script src="ress.js"></script>
-	<script src="helon.js"></script>
-	<script src="input.js"></script>
-	<script src="interface.js"></script>
-	<script src="weapons.js"></script>
-	<script src="specials.js"></script>
-	<script src="ships.js"></script>
-	<script src="controls.js"></script>
-	<script src="sectors.js"></script>
-	<script src="campaigns.js"></script>
-	<script src="levels.js"></script>
-	<script src="hellaxy.js"></script>
+	<script src="helon/tools.js"></script>
+	<script src="images/_ref.js"></script>
+	<script src="audio/_ref.js"></script>
+	<script src="helon/body.js"></script>
+	<script src="helon/screen.js"></script>
+	<script src="helon/helon.js"></script>
+	<script src="helon/input.js"></script>
+	<script src="helon/apps.js"></script>
+	<!--  Add Scripts -->
+	
+	<script src="hellaxy/hellaxy.js"></script>
+	<script src="hellaxy/interface.js"></script>
+	
+	
+	
+	
+	
 </head>
 
 <body bgcolor="#000000">
 	<p align = "Center">
-    <Canvas id="Canvas" Width="1280" Height="720" style="border:1px solid #000000; cursor: none"></Canvas>
+    		<Canvas id="Canvas" Width="1280" Height="720" style="border:1px solid #000000; cursor: none"></Canvas>
 	<p align = "Center">
 	<a href="https://github.com/HelkoLueken" target="blank">
 		<font face="Consolas">
@@ -30,4 +33,11 @@
 	</a>
 </body>
 
+
+<script type="text/javascript">
+		var Canvas = document.getElementById("Canvas");
+		Helon.ctx = Canvas.getContext("2d");
+		Helon.start(); 
+</script>
+	
 </html>
