@@ -45,7 +45,7 @@ function setupHellaxyScreens(){
 	
 	
 	new Screen("paused", "blank", "none", function(){
-		Helon.screens[Helon.previousScreenID].display();
+		Helon.previousScreen.display();
 		button(660, 400, 600, 100, "Resume to game", "yellow", function(){Helon.back()});
 		button(660, 600, 600, 100, "Return to menue", "yellow", function(){Hellaxy.level.cancel();});
 		muteButton();
@@ -61,14 +61,13 @@ function setupHellaxyScreens(){
 	});
 	
 	
-	/*
+	
 	 new Screen("messager", "blank", "none", function(){
 		if (Hellaxy.msgs.length === 0){
-			Hellaxy.task = campaignManager;
+			Helon.back();
 		}
 		else{
-			loop(Hellaxy.sector.theme);
-			Hellaxy.sector.display();
+			Helon.previousScreen.display();
 			Helon.ctx.fillStyle = "grey";
 			Helon.ctx.fillRect(0,0,1920,130);
 			Helon.ctx.fillStyle = "white";
@@ -96,7 +95,7 @@ function setupHellaxyScreens(){
 			}
 		}
 	});
-	
+	/*
 	
 	function campaignLine(of, designation, posy){
 		of = Hellaxy.campaigns[of];
@@ -147,11 +146,6 @@ function setupHellaxyScreens(){
 
 
 /*
-function addMsg(content){
-	var neueMsg = {};
-	neueMsg.content = content;
-	Hellaxy.msgs.push(neueMsg);
-}
 } */
 
 function GUI(of) {
