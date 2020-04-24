@@ -7,10 +7,10 @@ Number.prototype.between = function(a, b) {
 }
 
 
-
-function setProp(par, deflt){
-	if (exists(par)){
-		return par;
+//Fuer init von Objektparametern
+function trySet(setTo, deflt){
+	if (exists(setTo)){
+		return setTo;
 	}
 	else{
 		if (exists(deflt)){
@@ -18,9 +18,15 @@ function setProp(par, deflt){
 		}
 		else{
 			return null;
-			console.log("Alert: Could not set property. Null was set instead");
+			console.log("Alert: Could not set property. Null was set instead!");
 		}
 	}
+}
+
+
+//Alter Name - ergibt wenig Sinn
+function setProp(par, deflt){
+	return trySet(par, deflt);
 }
 
 
@@ -62,6 +68,19 @@ function getImg(img){
 
 
 
+function fileExists(path){ //doesnt work :(
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', path, false);
+    http.send();
+
+    return http.status != 404;
+
+}
+
+
+
 function getAudio(aud){
 	if (!exists(aud) || aud === "none") return "none";
 	if (!exists(aud.src)){
@@ -70,7 +89,7 @@ function getAudio(aud){
 		}
 	}
 	if (!exists(aud.src)){
-		console.log("Error: Missing audio reference:", aud);
+		console.log("Warning: Missing audio reference:" + aud + "\nThere will be no audio");
 		aud = "none";
 	}
 	return aud;
