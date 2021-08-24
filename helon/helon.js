@@ -7,86 +7,61 @@ Helon.ress.images = {
 	quantity : 0,
 	loaded : 0
 };
-Helon.apps = [];
-Helon.app = function(){};
 Helon.screens = [];
 Helon.screen = new Screen();
 Helon.previousScreen = new Screen();
 
-
-
-
-
-
-function setScreen(ID){
-	if (ID instanceof Screen && ID !== Helon.screen){
-		Helon.previousScreen = Helon.screen;
-		Helon.screen = ID;
+Helon.app = null;
+class App{
+	constructor(setup){
+		Helon.app = this;
+		if (typeof setup == "function") this.start = setup;
 	}
-	if (exists(Helon.screens[ID]) && ID !== Helon.screen.ID){
-		Helon.previousScreen = Helon.screen;
-		Helon.screen = Helon.screens[ID];
-	}
+	
+	start(){}
 }
 
 
 
-Helon.back = function(){
-	setScreen(Helon.previousScreen);
-}
 
 
-
-Helon.listApps = function(){
-	if (Helon.apps.length === 0) console.log("No applications found! \nCheck your references!");
-	for (var i = 0; i<Helon.apps.length; i++){
-		console.log(i + ": " + Helon.apps[i].name);
-	}
-}
-
-
-
-Helon.loop = function(){
-	Helon.app();
-	Helon.screen.display();
-	Helon.screen.physics();
-	Helon.screen.act();
-	cursor.display();
-	Helon.tics++;
-	requestAnimationFrame(Helon.loop);
-}
-
-
-
-Helon.stop = function(){
-	Helon.app = function(){};
-};
-
-
-
-
-Helon.exit = function(){
-	Helon.loop = function(){};
-};
-
-
-
-Helon.setUp = function(){
-	loadCursor();
+Helon.start = function(){ // Hier ist der Programmeinstieg
+	Helon.loadRess();
+	setTimeout(loadCursor, 2000);
 	new Screen("Lobby", "blackscreen", "none", function(){
+		Helon.ctx.fillRect(0, 0, 1920, 1080);
 		Helon.ctx.fillStyle = "yellow";
-		Helon.ctx.fillText("There is nothing to see here...", 400, 200);
+		Helon.ctx.font = "32px Consolas";
+		Helon.ctx.fillText("Helon Engine", 200, 600);
+		Helon.ctx.fillStyle = "black";
 	});
 	setScreen("Lobby");
+	
+	if (Helon.app != null){
+		new Screen("LoadingBar", "blackscreen", "none", function(){
+			Helon.ctx.fillStyle = "black";
+			Helon.ctx.fillRect(0, 0, 1920, 1080);
+			bar(80,400,1760,120,Helon.ress.images.loaded/Helon.ress.images.quantity);
+			if (Helon.ress.images.quantity !== 0 && Helon.ress.images.loaded === Helon.ress.images.quantity) {
+				console.log(Helon.ress.images);
+				Helon.app.start();
+			}
+		});
+		setScreen("LoadingBar");
+	}
+	else alert("No executable Application found");
 	Helon.loop();
 }
 
 
 
-Helon.load = function(slot){
-	Helon.apps[slot].startUp();
-	Helon.app = Helon.apps[slot].main;
-	console.log("Application " + (0+slot) + ": " + Helon.apps[slot].name+ " started");
+Helon.loop = function(){
+	Helon.screen.display();
+	Helon.screen.physics();
+	Helon.screen.act();
+	if (cursor.display != undefined) cursor.display();
+	Helon.tics++;
+	requestAnimationFrame(Helon.loop);
 }
 
 
@@ -109,40 +84,27 @@ Helon.loadRess = function(){
 	}
 }
 
-
-
-Helon.showRess = function(){
-	console.log(Helon.ress);
+	
+	
+function setScreen(ID){
+	if (ID instanceof Screen && ID !== Helon.screen){
+		Helon.previousScreen = Helon.screen;
+		Helon.screen = ID;
+	}
+	if (exists(Helon.screens[ID]) && ID !== Helon.screen.ID){
+		Helon.previousScreen = Helon.screen;
+		Helon.screen = Helon.screens[ID];
+	}
 }
 
 
 
-Helon.start = function(){
-	Helon.ctx.fillRect(0, 0, 1920, 1080);
-	Helon.ctx.fillStyle = "yellow";
-	Helon.ctx.font = "32px Consolas";
-	Helon.ctx.fillText("Helon Engine", 200, 600);
-	Helon.ctx.fillStyle = "black";
-	Helon.loadRess();
-	setTimeout(Helon.setUp, 3000);
-	
-	if (Helon.apps.length > 0){
-		Helon.app = function(){
-			Helon.ctx.fillRect(0, 0, 1920, 1080);
-			bar(80,400,1760,120,Helon.ress.images.loaded/Helon.ress.images.quantity);
-			if (Helon.ress.images.quantity !== 0 && Helon.ress.images.loaded === Helon.ress.images.quantity) {
-				console.log(Helon.ress.images);
-				if (Helon.apps.length === 1){
-					Helon.load(0);
-				}
-				else{
-					alert("Multiple executables found! \nChoose one with Helon.load(slot) or view options with Helon.listApps() !");
-				}
-			}	
-		}
-	}
-	else{
-		alert("No executable Application found");
-	}
-	
+Helon.back = function(){
+	setScreen(Helon.previousScreen);
+}
+
+
+
+function stopHelon(){
+	Helon.loop = function(){};
 }
