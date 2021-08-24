@@ -1,12 +1,7 @@
 var Hellaxy = new App();
 	Hellaxy.name = "Hellaxy";
-	Hellaxy.sector = {};
 	Hellaxy.msgs = [];
-	Hellaxy.campaign = {};
-	Hellaxy.level = {};
 	Hellaxy.ships = {};
-	Hellaxy.sectors = {};
-	Hellaxy.campaigns = {};
 	Hellaxy.planets = {};
 	Hellaxy.weapons = {};
 	Hellaxy.locations = {};
@@ -15,7 +10,6 @@ var Hellaxy = new App();
 
 Hellaxy.main = function(){
 	Hellaxy.sector = Helon.screen;
-	if (exists(Hellaxy.level.check)) Hellaxy.level.check();
 }
 
 
