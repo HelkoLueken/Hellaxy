@@ -6,7 +6,6 @@ class Ship extends Body{
 		this.aim = 0;
 		this.ID = 0;
 		this.staticID = 0;
-		this.sector = {};
 		this.ctrl = "none";
 		this.active = true;
 		for (var property in specs){
@@ -24,7 +23,7 @@ class Ship extends Body{
 		this.maxshield = this.shield;
 		if (exists(specs)){
 			this.setSkin("ship_" + this.fraction + "_" + this.designation);
-			Hellaxy.ships[specs.fraction + "_" + specs.designation] = this;
+			Hellaxy.shipTypes[specs.fraction + "_" + specs.designation] = this;
 		}
 	}
 	
@@ -122,7 +121,7 @@ class Ship extends Body{
 	draw(){
 		super.draw();
 		this.printBar();
-		if (this.ctrl === player1) GUI(this);
+		if (this.ctrl === player1) this.printPLayerGUI();
 	}
 	
 	
@@ -234,17 +233,7 @@ class Ship extends Body{
 	}
 	
 	
-	
-	move(){
-		super.move();
-		if (this.x < 0) this.x = 0;
-		if (this.y < 0) this.y = 0;
-		if (this.x > this.sector.width) this.x = this.sector.width;
-		if (this.y > this.sector.height) this.y = this.sector.height;
-	}
-	
-	
-	
+	/*
 	nextShip(search, range){
 		if (!exists(search)) search = "anything";
 		if (!exists(range)) range = 700;
@@ -284,7 +273,7 @@ class Ship extends Body{
 			}
 		if (matches.length === 0) return false;
 		return matches;
-	}
+	} */
 	
 	
 	
@@ -304,44 +293,94 @@ class Ship extends Body{
 	
 	
 	
+	printPlayerGUI(){
+		Helon.ctx.fillStyle = "grey";
+		Helon.ctx.fillRect(0,960,1920,120);
+		Helon.ctx.fillStyle = "white";
+		Helon.ctx.fillRect(9,969,102,102);
+		Helon.ctx.strokeStyle = "black";
+		Helon.ctx.lineWidth = 10;
+		Helon.ctx.strokeRect(9,969,1902,102);
+		Helon.ctx.strokeRect(9,969,102,102);
+		Helon.ctx.drawImage(this.skin, 14, 974, 92, 92);
+		Helon.ctx.fillStyle = "black";
+		if (this.maxshield !== 0) Helon.ctx.fillText("Shield:", 120, 1005);
+		Helon.ctx.fillText("Structure:", 120, 1045);
+		Helon.ctx.fillStyle = "red";
+		if (this.maxshield !== 0) Helon.ctx.fillRect(300, 980, 200, 30);
+		Helon.ctx.fillRect(300, 1020, 200, 30);
+		Helon.ctx.fillStyle = "cyan";
+		if (this.shield !== 0) Helon.ctx.fillRect(300, 980, 200 * (this.shield / this.maxshield), 30);
+		Helon.ctx.fillStyle = "green";
+		Helon.ctx.fillRect(300, 1020, 200 * (this.hp / this.mass), 30);
+		Helon.ctx.lineWidth = 4;
+		if (this.shield !== 0) Helon.ctx.strokeRect(300, 980, 200, 30);
+		Helon.ctx.strokeRect(300, 1020, 200, 30);
+		Helon.ctx.lineWidth = 2;
+		Helon.ctx.fillStyle = "black";
+		if (this.shield !== 0) Helon.ctx.fillText(this.shield, 310, 1005);
+		Helon.ctx.fillText(this.hp, 310, 1045);
+		Helon.ctx.fillText("=>" + Hellaxy.sector.ID + " Sector", 1600 , 1000);
+		Helon.ctx.fillText("  X:" + Math.round(this.x) + " Y:" + Math.round(this.y), 1600 , 1040);
+		if (this.wp1 !== undefined) {
+			Helon.ctx.fillText(this.wp1.designation + ":", 550, 1000);
+			Helon.ctx.fillText(this.wp1.ammo, 580 + Helon.ctx.measureText(this.wp1.designation).width, 1000);
+			if (!queue[this.wp1.designation + this.staticID]){
+				Helon.ctx.strokeStyle = "green";
+				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(this.wp1.designation).width, 1000);
+				Helon.ctx.strokeStyle = "black";
+			}
+		}
+		if (this.wp2 !== undefined) {
+			Helon.ctx.fillText(this.wp2.designation + ":", 550, 1030);
+			Helon.ctx.fillText(this.wp2.ammo, 580 + Helon.ctx.measureText(this.wp2.designation).width, 1030);
+			if (!queue[this.wp1.designation + this.staticID]){
+				Helon.ctx.strokeStyle = "green";
+				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(this.wp1.designation).width, 1030);
+				Helon.ctx.strokeStyle = "black";
+			}
+		}
+		if (this.wp3 !== undefined) {
+			Helon.ctx.fillText(this.wp3.designation + ":", 550, 1340);
+			Helon.ctx.fillText(this.wp3.ammo, 580 + Helon.ctx.measureText(this.wp3.designation).width, 1060);
+			if (!queue[this.wp1.designation + this.staticID]){
+				Helon.ctx.strokeStyle = "green";
+				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(this.wp1.designation).width, 1060);
+				Helon.ctx.strokeStyle = "black";
+			}
+		}
+		Helon.ctx.strokeStyle = "yellow";
+	} 
+
+	
+	
 	refreshID(){
-		this.sector.refreshIDs();
+		Hellaxy.space.refreshIDs();
 	}
 	
 	
 	
-	spawn(inSector, atX, atY, atAngle, ctrl, abgang){
+	spawn( atX, atY, atAngle, ctrl, abgang){
 		var neuerSpawn = this.clone();
-		if (inSector == undefined){
-			inSector = "unknown";
-		}
-		if (inSector instanceof Sector) neuerSpawn.sector = inSector;
-		else{
-			if (exists(Hellaxy.sectors[inSector])) neuerSpawn.sector = Hellaxy.sectors[inSector];
-			else {
-				neuerSpawn.sector = Hellaxy.sectors["testmap"]
-				console.log("Spawnsector unknown. Moved new spawn to testmap");
-			}
-		}
 		neuerSpawn.x = setProp(atX, 0);
 		neuerSpawn.y = setProp(atY, 0);
 		neuerSpawn.angle = setProp(atAngle, 0);
 		neuerSpawn.ctrl = setProp(ctrl, "none");
 		neuerSpawn.abgang = setProp(abgang, function(){});
-		neuerSpawn.ID = neuerSpawn.sector.ships.length;
-		neuerSpawn.staticID = neuerSpawn.sector.ships.length + Helon.tics;
-		neuerSpawn.sector.add(neuerSpawn);
-		lastStat.ship = neuerSpawn;
+		neuerSpawn.ID = Hellaxy.ships.length;
+		neuerSpawn.staticID = Hellaxy.ships.length + Helon.tics;
+		Hellaxy.ships.push(neuerSpawn);
+		//lastStat.ship = neuerSpawn;
 	}
 	
 	
 	
-	spawnSquad(atX, atY, quantity, ctrl, abgang, inSector){
+	spawnSquad(atX, atY, quantity, ctrl, abgang){
 		var hor = 0;
 		var ver = 0;
 		var spawned = 0;
 		while (spawned < quantity){
-			this.spawn(inSector , atX + hor * this.width * 2, atY + ver * this.height * 2, 0, ctrl, abgang, inSector);
+			this.spawn(atX + hor * this.width * 2, atY + ver * this.height * 2, 0, ctrl, abgang);
 			spawned++;
 			hor++;
 			if (hor >= Math.sqrt(quantity)){
@@ -363,55 +402,9 @@ class Ship extends Body{
 	
 	vanish(){
 		this.drop();
-		this.sector.refreshIDs();
+		Hellaxy.space.refreshIDs();
 	}
 }
-	
-	/*
-	
-	
-	transferTo(sector, atX, atY, atAngle){
-		var neuerTransfer = this.clone();
-		sector = Hellaxy.sectors[sector];
-		neuerTransfer.sector = sector;
-		neuerTransfer.x = atX;
-		neuerTransfer.y = atY;
-		neuerTransfer.angle = atAngle;
-		sector.ships.push(neuerTransfer);
-		if (this.ctrl === player1){
-			if (typeof Hellaxy.sector.theme === "object") resetAudio();
-			Hellaxy.sector = sector;
-			projectile.splice(0, projectile.length);
-		}
-		this.sector.ships.splice(this.ID, 1);
-		this.sector.refreshIDs();
-		var klon = sector.ships[sector.ships.length - 1];
-		for (var r = 0; r < sector.ships.length -1; r++){
-			if (klon.collidesWith(sector.ships[r])){
-				while (klon.collidesWith(sector.ships[r])){
-					klon.x -= 50;
-				}
-			}
-		}
-		for (var p = 0; p < sector.portals.length; p++){
-			if (klon.collidesWith(sector.portals[p])){
-				while (klon.collidesWith(sector.ships[r])){
-					klon.x += 50;
-				}
-				for (var r = 0; r < sector.ships.length -1; r++){
-					if (klon.collidesWith(sector.ships[r])){
-						while (klon.collidesWith(sector.ships[r])){
-							klon.x += 50;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	
-	
-	*/
 
 
 	
@@ -439,5 +432,5 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	new Ship({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.11, wp1 : "emp_director_small"});
 	new Ship({designation : "fortress_ai", fraction : "birchanian", hp : 200000, armour : 1, a : 0});
 	
-	console.log("Ships:", Hellaxy.ships);
+	console.log("Shiptypes:", Hellaxy.shipTypes);
 }

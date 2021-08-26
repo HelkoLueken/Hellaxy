@@ -6,6 +6,34 @@
 <head>
 	<link rel="icon" href="favicon.png" type="image/png"	/>
 	<link rel="stylesheet" href="index.css">
+	<!--<script src="filepathreader.php"></script> Dieser Block ruft die Datei filepathreader.php auf, scheint aber probleme zu haben... ka
+	<script type="Javascript"> 
+		$.ajax({
+            url: "getImages.php",
+            dataType: "json",
+            success: function (data) {
+
+                $.each(data, function(i,filename) {
+                    $('#imageDiv').prepend('<img src="'+ filename +'"><br>');
+                });
+            }
+        });
+	</script> -->
+	<script type="Javascript"> 
+		var folder = "images/";
+
+		$.ajax({
+			url : folder,
+			success: function (data) {
+				$(data).find("a").attr("href", function (i, val) {
+					if( val.match(/\.(jpe?g|png|gif)$/) ) { 
+						$("body").append( "<img src='"+ folder + val +"'>" );
+						console.log("bing");
+					} 
+				});
+			}
+		});
+	</script>
 	<script src="helon/tools.js"></script>
 	<script src="images/_ref.js"></script>
 	<script src="audio/_ref.js"></script>
@@ -22,12 +50,8 @@
 	<script src="hellaxy/weapons.js"></script>
 	<script src="hellaxy/specials.js"></script>
 	<script src="hellaxy/planet.js"></script>
-	<script src="hellaxy/sectors.js"></script>
+	<script src="hellaxy/space.js"></script>
 	<script src="hellaxy/ships.js"></script>
-	<script src="hellaxy/levelstep.js"></script>
-	<script src="hellaxy/campaign.js"></script>
-	<script src="hellaxy/level.js"></script>
-	<script src="hellaxy/levelwriter.js"></script>
 	
 	
 	
