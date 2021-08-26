@@ -46,12 +46,12 @@ function exists(obj){
 
 function getImg(img){
 	if (Helon.ress.images.loaded === 0){
-		console.log("Error: No images loaded yet! Returned new image");
+		console.log("Warning: No images loaded yet! Returned new image");
 		return new Image();
 	}
 	if (!exists(img)){
 		img = "cross";
-		console.log("Error: Missing Image ID. Returned dummy instead");
+		console.log("Warning: Created Image without ID. Returned dummy instead");
 	}
 	if (!exists(img.src)){
 		for (var a in Helon.ress.images){
@@ -59,7 +59,7 @@ function getImg(img){
 		}
 	}
 	if (!exists(img.src)){
-		console.log("Error: Could not find Image in Storage:", img);
+		console.log("Warning: Could not find Image in Storage:", img);
 		img = Helon.ress.images["cross"];
 	}
 	return img;

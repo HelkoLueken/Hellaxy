@@ -87,6 +87,7 @@ Helon.loadRess = function(){
 	
 	
 function setScreen(ID){
+	resetAudio();
 	if (ID instanceof Screen && ID !== Helon.screen){
 		Helon.previousScreen = Helon.screen;
 		Helon.screen = ID;
