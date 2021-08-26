@@ -2,18 +2,10 @@
 	Hellaxy.space = new Screen("space", "bg_central", "theme_central");
 	
 	Hellaxy.space.act = function(){
+		if (intervalReact(key.esc)) setScreen("paused");
 		for (var i = 0; i < Hellaxy.ships.length; i++){
 			if (typeof Hellaxy.ships[i].ctrl === "function") Hellaxy.ships[i].ctrl();
 		}
-	}
-	
-	
-	
-	Hellaxy.space.adjustOffset = function(){
-		if (this.offsetX > this.width - 1920 / this.scale) this.offsetX = this.width - 1920 / this.scale;
-		if (this.offsetY > this.height - 980 / this.scale) this.offsetY = this.height - 980 / this.scale;
-		if (this.offsetX < 0) this.offsetX = 0;
-		if (this.offsetY < 0) this.offsetY = 0;
 	}
 	
 	
@@ -24,8 +16,11 @@
 				Helon.ctx.drawImage(this.bg, posX - ((this.offsetX % 100) * this.scale), posY - ((this.offsetY % 100) * this.scale), 100 * this.scale, 100 * this.scale);
 			}
 		}
-		for (var i = 0; i < this.bodies.length; i++){
-			this.bodies[i].draw();
+		for (var i = 0; i < Hellaxy.ships.length; i++){
+			Hellaxy.ships[i].draw();
+		}
+		for (var i = 0; i < Hellaxy.projectiles.length; i++){
+			Hellaxy.projectiles[i].draw();
 		}
 		loop(this.theme);
 	}
@@ -33,11 +28,11 @@
 	
 	
 	Hellaxy.space.physics = function(){
-		for (proj in Hellaxy.projectiles){
-			proj.move();
+		for (let i = 0; i < Hellaxy.projectiles.length; i++){
+			Hellaxy.projectiles[i].move();
 		}
-		for (ship in Hellaxy.ships){
-			Hellaxy.ships[ship].move();
+		for (let i = 0; i < Hellaxy.ships.length; i++){
+			Hellaxy.ships[i].move();
 		}
 
 			//if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);

@@ -30,6 +30,12 @@ function setProp(par, deflt){
 
 
 
+function biep(){ // Fürs Debugging
+	console.log("Reached this point");
+}
+
+
+
 function chance(percentage){
 	if (Math.floor(Math.random() * 100) <= percentage) return true;
 	return false;

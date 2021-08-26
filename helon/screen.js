@@ -71,7 +71,6 @@ class Screen{
 	focus(on){
 		this.offsetX = on.x - 960 / this.scale;
 		this.offsetY = on.y - 540 / this.scale;
-		this.adjustOffset();
 	}
 	
 	
