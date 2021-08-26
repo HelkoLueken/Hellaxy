@@ -14,7 +14,8 @@ class Projectile extends Body{
 		this.vy = this.emitter.vy + Math.cos(this.angle * Math.PI / 180) * this.v;
 		this.vx = this.emitter.vx + Math.cos((this.angle - 90) * Math.PI / 180) * this.v;
 		this.tics = 50;
-		this.emitter.sector.add(this);
+		Hellaxy.projectiles.push(this);
+		this.screen = Hellaxy.space();
 		this.sound("fire");
 	}
 	

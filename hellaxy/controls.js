@@ -6,7 +6,7 @@ function setupControls(){
 	
 	
 	player1 = function(){
-		Hellaxy.sector.focus(this);
+		Hellaxy.space.focus(this);
 		if (!click){
 			if (key.a && !key.d) this.turn("left"); //Drehung
 			if (key.d && !key.a) this.turn("right");

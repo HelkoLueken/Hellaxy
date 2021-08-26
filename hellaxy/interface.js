@@ -29,14 +29,20 @@ function setupHellaxyScreens(){
 		var hor = 1;
 		var ver = 1;
 		Helon.ctx.strokeStyle = "yellow";
-		Helon.ctx.fillText("Freeroam Mode", 850, 50);
-		Helon.ctx.fillText("Select your ship:", 810, 80);
-		for (var shiptype in Hellaxy.shipTypes){
+		Helon.ctx.fillText("Select your ship:", 850, 80);
+		for (let shiptype in Hellaxy.shipTypes){
 				Helon.ctx.drawImage(Hellaxy.shipTypes[shiptype].skin, hor*70, ver*70 + 50, 64, 64);
 				if (cursor.x.between(hor*70, hor*70 + 64) && cursor.y.between(ver*70 + 50, ver*70 + 114)){
 					Helon.ctx.strokeRect(hor*70 - 4, ver*70 + 46, 70, 70);
 					if (click){
-						//Hellaxy.sectors.central.spawnShip(Hellaxy.ships[shiptype].fraction + "_" + Hellaxy.ships[shiptype].designation, 1000, 1000, 0, player1, 0, function(){addMsg("Report critical Damage"); LEVEL.cancel();});
+						Hellaxy.shipTypes[shiptype].spawn(400, 400, 0, player1, function(){ //Ja das muss so umständlich angesprochen werden, die Laufvariable ist hier iwie nur ein String
+							addMsg("Report critical Damage");
+							Hellaxy.space.clear();
+							resetAudio();
+							setScreen("menue");
+						});
+						resetAudio();
+						setScreen("space");
 					}
 				}
 				hor++;
