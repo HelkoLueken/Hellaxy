@@ -2,8 +2,8 @@
 	Hellaxy.space = new Screen("space", "bg_central", "theme_central");
 	
 	Hellaxy.space.act = function(){
-		for (ship in Hellaxy.ships){
-			if (typeof this.ships[i].ctrl === "function") ship.ctrl();
+		for (var i = 0; i < Hellaxy.ships.length; i++){
+			if (typeof Hellaxy.ships[i].ctrl === "function") Hellaxy.ships[i].ctrl();
 		}
 	}
 	
@@ -37,7 +37,7 @@
 			proj.move();
 		}
 		for (ship in Hellaxy.ships){
-			ship.move();
+			Hellaxy.ships[ship].move();
 		}
 
 			//if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);

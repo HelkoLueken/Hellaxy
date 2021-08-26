@@ -8,6 +8,7 @@ class Ship extends Body{
 		this.staticID = 0;
 		this.ctrl = "none";
 		this.active = true;
+		this.screen = Hellaxy.space;
 		for (var property in specs){
 			this[property] = specs[property];
 			for (var i = 1; i < 3; i++){
@@ -360,7 +361,7 @@ class Ship extends Body{
 	
 	
 	
-	spawn( atX, atY, atAngle, ctrl, abgang){
+	spawn(atX, atY, atAngle, ctrl, abgang){
 		var neuerSpawn = this.clone();
 		neuerSpawn.x = setProp(atX, 0);
 		neuerSpawn.y = setProp(atY, 0);
@@ -368,9 +369,7 @@ class Ship extends Body{
 		neuerSpawn.ctrl = setProp(ctrl, "none");
 		neuerSpawn.abgang = setProp(abgang, function(){});
 		neuerSpawn.ID = Hellaxy.ships.length;
-		neuerSpawn.staticID = Hellaxy.ships.length + Helon.tics;
 		Hellaxy.ships.push(neuerSpawn);
-		//lastStat.ship = neuerSpawn;
 	}
 	
 	
