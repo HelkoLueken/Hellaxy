@@ -122,7 +122,6 @@ class Ship extends Body{
 	draw(){
 		super.draw();
 		this.printBar();
-		if (this.ctrl === player1) this.printPLayerGUI();
 	}
 	
 	
@@ -203,12 +202,6 @@ class Ship extends Body{
 				}
 			}
 		}
-		if (dir === "walls"){
-			if (this.x < 150) this.turn({x: this.sector.width, y: this.sector.height/2});
-			if (this.y < 150) this.turn({x: this.sector.width / 2, y: this.sector.height});
-			if (this.x > this.sector.width - 150) this.turn({x: 0, y: this.sector.height/2});
-			if (this.y > this.sector.height - 150) this.turn({x: this.sector.width, y: 0});
-		}
 	}
 	
 	
@@ -282,12 +275,12 @@ class Ship extends Body{
 		if (this.hp <=0) return;
 		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
 		Helon.ctx.fillStyle = "green";
-		var x = (this.x - this.sector.offsetX) * this.sector.scale - this.width/2 * this.sector.scale;
-		var y = (this.y - this.sector.offsetY) * this.sector.scale - this.height/1.7 * this.sector.scale;
-		Helon.ctx.strokeRect(x, y, this.width * this.sector.scale, 6);
-		Helon.ctx.fillRect(x, y, this.width * (this.hp / this.mass) * this.sector.scale, 6);
+		var x = (this.x - this.screen.offsetX) * this.screen.scale - this.width/2 * this.screen.scale;
+		var y = (this.y - this.screen.offsetY) * this.screen.scale - this.height/1.7 * this.screen.scale;
+		Helon.ctx.strokeRect(x, y, this.width * this.screen.scale, 6);
+		Helon.ctx.fillRect(x, y, this.width * (this.hp / this.mass) * this.screen.scale, 6);
 		Helon.ctx.fillStyle = "cyan";
-		Helon.ctx.fillRect(x, y, this.width * (this.shield / this.maxshield) * this.sector.scale, 6);
+		Helon.ctx.fillRect(x, y, this.width * (this.shield / this.maxshield) * this.screen.scale, 6);
 		Helon.ctx.strokeStyle = "yellow";
 		Helon.ctx.fillStyle = "yellow";
 	}
@@ -321,7 +314,7 @@ class Ship extends Body{
 		Helon.ctx.fillStyle = "black";
 		if (this.shield !== 0) Helon.ctx.fillText(this.shield, 310, 1005);
 		Helon.ctx.fillText(this.hp, 310, 1045);
-		Helon.ctx.fillText("=>" + Hellaxy.sector.ID + " Sector", 1600 , 1000);
+		Helon.ctx.fillText("=> In outer Space", 1600 , 1000);
 		Helon.ctx.fillText("  X:" + Math.round(this.x) + " Y:" + Math.round(this.y), 1600 , 1040);
 		if (this.wp1 !== undefined) {
 			Helon.ctx.fillText(this.wp1.designation + ":", 550, 1000);

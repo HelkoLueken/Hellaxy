@@ -14,6 +14,6 @@ Hellaxy.shipTypes = {};
 Hellaxy.ships = [];
 Hellaxy.planets = {};
 Hellaxy.weapons = {};
-Hellaxy.projectlies = [];
+Hellaxy.projectiles = [];
 Hellaxy.locations = {};
 Hellaxy.playerShip = {};

@@ -28,6 +28,7 @@ function setupControls(){
 		if (key.minus) this.screen.zoomOut();
 		if (key.plus) this.screen.zoomIn();
 		if (key.one) this.useSpecial(1);
+		this.printPlayerGUI();
 	}
 	
 	

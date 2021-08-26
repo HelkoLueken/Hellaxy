@@ -17,9 +17,9 @@ function setupHellaxyScreens(){
 		Helon.ctx.font = "32px Consolas";
 		if (intervalReact(key.esc)) setScreen("title");
 		//button(660, 700, 600, 150, "Test room", "yellow", function(){Hellaxy.campaigns.quicktest.start()})
-		button(660, 300, 600, 150, "Start Game", "yellow", function(){setScreen("shipSelect");})
+		button(660, 400, 600, 150, "Start Game", "yellow", function(){setScreen("shipSelect");})
 		//button(660, 600, 600, 100, "Free-Roam Mode", "yellow", function(){/*setScreen("freeroam");*/})
-		button(660, 500, 600, 150, "Controls", "yellow", function(){setScreen("controls");})
+		button(660, 650, 600, 150, "Controls", "yellow", function(){setScreen("controls");})
 		muteButton();
 	});
 	
@@ -57,22 +57,22 @@ function setupHellaxyScreens(){
 		Helon.ctx.font = "64px Consolas";
 		Helon.ctx.fillText("Controls", 850, 80);
 		Helon.ctx.font = "32px Consolas";
-		Helon.ctx.fillText("Moving around = WASD", 100,100);
-		Helon.ctx.fillText("Light Weapon = Space", 100,150);
-		Helon.ctx.fillText("Medium Weapon = E", 100,200);
-		Helon.ctx.fillText("Heavy Weapon = Q", 100,250);
-		Helon.ctx.fillText("Special Abilities = 1 - 3", 100,300);
-		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,350);
-		Helon.ctx.fillText("Point at cursor / Show targets direction = Left mouse button", 100,400);
-		Helon.ctx.fillText("Zoom in / out = + / -", 100,450);
+		Helon.ctx.fillText("Move around = WASD", 100,200);
+		Helon.ctx.fillText("Light Weapon = Space", 100,250);
+		Helon.ctx.fillText("Medium Weapon = E", 100,300);
+		Helon.ctx.fillText("Heavy Weapon = Q", 100,350);
+		Helon.ctx.fillText("Special Abilities = 1 - 3", 100,400);
+		Helon.ctx.fillText("Pause Game / Skip Dialog = esc", 100,450);
+		Helon.ctx.fillText("Point at cursor / Show targets direction = Left mouse button", 100,500);
+		Helon.ctx.fillText("Zoom in / out = + / -", 100,550);
 		button(660, 900, 600, 100, "Back", "yellow", function(){setScreen("menue");});
 	});
 	
 	
 	new Screen("paused", "blank", "none", function(){
 		Helon.previousScreen.display();
-		button(660, 400, 600, 100, "Resume to game", "yellow", function(){Helon.back()});
-		button(660, 600, 600, 100, "Return to menue", "yellow", function(){Helon.back(); Hellaxy.level.cancel();});
+		button(660, 400, 600, 100, "Resume to game", "yellow", function(){Helon.back();});
+		button(660, 600, 600, 100, "Return to menue", "yellow", function(){Hellaxy.space.clear(); resetAudio(); setScreen("menue");});
 		muteButton();
 
 		Helon.ctx.lineWidth = 8;
