@@ -11,8 +11,8 @@
 	
 	
 	Hellaxy.space.display = function(){
-		for (var posY = 0; posY < 1100; posY += 100 * this.scale){
-			for (var posX = 0; posX < 2000; posX += 100 * this.scale){
+		for (var posY = -100; posY < 1100; posY += 100 * this.scale){
+			for (var posX = -100; posX < 2000; posX += 100 * this.scale){
 				Helon.ctx.drawImage(this.bg, posX - ((this.offsetX % 100) * this.scale), posY - ((this.offsetY % 100) * this.scale), 100 * this.scale, 100 * this.scale);
 			}
 		}
