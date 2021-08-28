@@ -354,11 +354,11 @@ class Ship extends Body{
 	
 	
 	
-	spawn(atX, atY, atAngle, ctrl, abgang){
+	spawn(atX, atY, ctrl, abgang){
 		var neuerSpawn = this.clone();
-		neuerSpawn.x = setProp(atX, 0);
-		neuerSpawn.y = setProp(atY, 0);
-		neuerSpawn.angle = setProp(atAngle, 0);
+		neuerSpawn.x = setProp(atX + Math.floor((Math.random() * 10 * this.skin.width) - 5 * this.skin.width), 0);
+		neuerSpawn.y = setProp(atY + Math.floor((Math.random() * 10 * this.skin.width) - 5 * this.skin.width), 0);
+		neuerSpawn.angle = Math.floor(Math.random() * 359);
 		neuerSpawn.ctrl = setProp(ctrl, "none");
 		neuerSpawn.abgang = setProp(abgang, function(){});
 		neuerSpawn.ID = Hellaxy.ships.length;
@@ -372,7 +372,7 @@ class Ship extends Body{
 		var ver = 0;
 		var spawned = 0;
 		while (spawned < quantity){
-			this.spawn(atX + hor * this.width * 2, atY + ver * this.height * 2, 0, ctrl, abgang);
+			this.spawn(atX + hor * this.width * 2, atY + ver * this.height * 2, ctrl, abgang);
 			spawned++;
 			hor++;
 			if (hor >= Math.sqrt(quantity)){

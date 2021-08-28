@@ -37,6 +37,7 @@ function biep(){ // Fürs Debugging
 
 
 function chance(percentage){
+	if (!exists(percentage)) console.log("Warning: tried to calculate undefined odds");
 	if (Math.floor(Math.random() * 100) <= percentage) return true;
 	return false;
 }
@@ -44,7 +45,7 @@ function chance(percentage){
 
 
 function exists(obj){
-	if (obj !== undefined) return true;
+	if (obj !== undefined && obj !== null) return true;
 	return false;
 }
 

@@ -5,6 +5,7 @@ var Hellaxy = new App(function(){
 	setupSpecials();
 	setupControls();
 	setupShips();
+	setupPlanets();
 	setScreen("title");
 });
 
@@ -17,3 +18,4 @@ Hellaxy.weapons = {};
 Hellaxy.projectiles = [];
 Hellaxy.locations = {};
 Hellaxy.playerShip = {};
+Hellaxy.lastStats = {};
