@@ -43,7 +43,7 @@ Helon.start = function(){ // Hier ist der Programmeinstieg
 			Helon.ctx.fillRect(0, 0, 1920, 1080);
 			bar(80,400,1760,120,Helon.ress.images.loaded/Helon.ress.images.quantity);
 			if (Helon.ress.images.quantity !== 0 && Helon.ress.images.loaded === Helon.ress.images.quantity) {
-				console.log(Helon.ress.images);
+				console.log("Loaded Images", Helon.ress.images);
 				Helon.app.start();
 			}
 		});

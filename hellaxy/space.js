@@ -16,12 +16,13 @@
 				Helon.ctx.drawImage(this.bg, posX - ((this.offsetX % 100) * this.scale), posY - ((this.offsetY % 100) * this.scale), 100 * this.scale, 100 * this.scale);
 			}
 		}
-		for (var i = 0; i < Hellaxy.ships.length; i++){
-			Hellaxy.ships[i].draw();
-		}
-		for (var i = 0; i < Hellaxy.projectiles.length; i++){
-			Hellaxy.projectiles[i].draw();
-		}
+		
+		for (designation in Hellaxy.planets) Hellaxy.planets[designation].draw();
+		
+		for (var i = 0; i < Hellaxy.ships.length; i++) Hellaxy.ships[i].draw();
+
+		for (var i = 0; i < Hellaxy.projectiles.length; i++) Hellaxy.projectiles[i].draw();
+		
 		loop(this.theme);
 	}
 	
