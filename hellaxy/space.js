@@ -1,8 +1,13 @@
-﻿function setupSpace(){ // Achtung: Space ist nur der Screen für die darstellung und zum Aufruf der Physik. Die Spielobjekte Planeten, projektile usw, liegen aber sortiert als Eigenschaften am Hellaxy Objekt.
+﻿function setupSpace(){ // Achtung: Space ist nur der Screen für die Darstellung und zum Aufruf der Physik. Die Spielobjekte Planeten, projektile usw, liegen aber sortiert als Eigenschaften am Hellaxy Objekt.
 	Hellaxy.space = new Screen("space", "bg_central", "theme_central");
 	
 	Hellaxy.space.act = function(){
-		if (intervalReact(key.esc)) setScreen("paused");
+		this.dropDistantBodys();
+		this.controlSpawning();
+		if (intervalReact(key.esc)){
+			stopAllSpawning();
+			setScreen("paused");
+		}
 		for (var i = 0; i < Hellaxy.ships.length; i++){
 			if (typeof Hellaxy.ships[i].ctrl === "function") Hellaxy.ships[i].ctrl();
 		}
@@ -36,7 +41,6 @@
 			Hellaxy.ships[i].move();
 		}
 
-			//if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);
 		/*
 		for (var i = 0; i < this.ships.length; i++){
 			for (var s = i+1; s < this.ships.length; s++){
@@ -66,6 +70,18 @@
 	
 	
 	
+	Hellaxy.space.dropDistantBodys = function(){
+		for (let i = 0; i < Hellaxy.ships.length; i++){
+			if (Hellaxy.ships[i].distanceTo({x : this.offsetX, y : this.offsetY}) > 3000) Hellaxy.ships[i].drop();
+		}
+		
+		for (let i = 0; i < Hellaxy.projectiles.length; i++){
+			if (Hellaxy.projectiles[i].distanceTo({x : this.offsetX, y : this.offsetY}) > 3000) Hellaxy.projectiles[i].drop();
+		}
+	}
+	
+	
+	
 	Hellaxy.space.clear = function(){
 		Hellaxy.ships = [];
 		Hellaxy.projectiles = [];
@@ -73,6 +89,15 @@
 	
 	
 	
+	Hellaxy.space.controlSpawning = function(){
+		for (planet in Hellaxy.planets){
+			if (Hellaxy.planets[planet].distanceTo({x : this.offsetX, y : this.offsetY}) > 3000) Hellaxy.planets[planet].stopSpawning();
+			else Hellaxy.planets[planet].startSpawning();
+		}
+	}
+	
+	
+	//@Description soll ausgemustert werden
 	Hellaxy.space.refreshIDs = function(){
 		for (var id = 0; id < Hellaxy.ships.length; id++){
 			Hellaxy.ships[id].ID = id;
@@ -93,90 +118,18 @@
 }
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	addPlanet(designation, x, y){
-		var neuerPlanet = new Planet(designation, x, y);
-		neuerPlanet.sector = this;
-		for (var pla = 0; pla < this.planets.length; pla++){
-			if (this.planets[pla].designation === neuerPlanet.designation) return;
-		}
-		this.planets.push(neuerPlanet);
-		Hellaxy.planets[designation] = neuerPlanet;
-		Hellaxy.locations[designation] = neuerPlanet;
-	}
-	
-	
-	addLocation(designation, x, y, width, height){
-		var neueLocation = new Location(designation, this, x, y, width, height);
-		this.locations.push(neueLocation);
-		Hellaxy.locations[designation] = neueLocation;
-	}
-	
-	
-	spawnAsteroids(posX, posY, width, height){
-		for (var i = 0; i < width / 90; i++){
-			for (var h = 0; h < height / 90; h++){
-				this.spawnShip("asteroid_asteroid" + Math.floor((Math.random() * 3) + 1), posX + i * 90 + Math.floor((Math.random() * 50) - 25), posY + h * 90 + Math.floor((Math.random() * 50) - 25), Math.floor((Math.random() * 359)), npc["asteroid" + Math.floor((Math.random() * 3) + 1)]);
-			}
-		}
-	}
-	
-	
-	spawnShip(designation, atX, atY, atAngle, ctrl, abgang){ //designation, atX, atY, atAngle, ctrl, abgang
-		if (ctrl === undefined) ctrl = "none";
-		if (atAngle === undefined) atAngle = 0;
-		var neuerSpawn = Hellaxy.ships[designation].clone();
-		neuerSpawn.x = atX;
-		neuerSpawn.y = atY;
-		neuerSpawn.angle = atAngle;
-		neuerSpawn.aim = atAngle;
-		if (ctrl !== undefined) neuerSpawn.ctrl = ctrl;
-		if (abgang !== undefined) neuerSpawn.abgang = abgang;
-		neuerSpawn.sector = this;
-		neuerSpawn.staticID = this.ships.length + Helon.tics;
-		this.ships.push(neuerSpawn);
-		this.refreshIDs();
-	}
-	
-	
-	
-	hasShip(fraction){
-		for (var k = 0; k < this.ships.length; k++){
-			if (this.ships[k].fraction === fraction) return true;
-		}
-		return false;
-	}
-	
 
 
-function addPlanet(designation, x, y, inSector){
-	if (inSector === undefined) {
-		inSector = Hellaxy.sector;
-	} else {
-		inSector = Hellaxy.sectors[inSector];
+function spawnAsteroids(x, y, width, height){
+	for (var i = 0; i < width / 90; i++){
+		for (var h = 0; h < height / 90; h++){
+			Hellaxy.ships["asteroid_asteroid" + Math.floor((Math.random() * 3) + 1)].spawn(x + i * 90 + Math.floor((Math.random() * 50) - 25), y + h * 90 + Math.floor((Math.random() * 50) - 25));
+		}
 	}
-	inSector.addPlanet(designation, x, y);
 }
 
 
-function addLocation(designation, x, y, width, height, inSector){
-	if (inSector === undefined) inSector = Hellaxy.sector;
-	inSector.addLocation(designation, x, y, width, height);
+
+function stopAllSpawning(){
+	for (planet in Hellaxy.planets) Hellaxy.planets[planet].stopSpawning();
 }
-
-
-function spawnAsteroids(posX, posY, width, height, inSector){
-	if (inSector === undefined) inSector = Hellaxy.sector;
-	inSector.spawnAsteroids(posX, posY, width, height);
-}
-
-*/
