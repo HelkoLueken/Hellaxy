@@ -6,15 +6,15 @@ class Spawnpoint{
 		this.x = trySet(x, 0);
 		this.y = trySet(y, 0);
 		this.quantity = trySet(quantity, 1);
-		this.milliseconds = trySet(milliseconds, 10000);
+		this.milliseconds = trySet(milliseconds, 8000);
 		this.percent = trySet(percent, 50);
-		console.log(percent, this.percent);
+		this.intervalReference = null;
 	}
 	
 	
 	
 	startSpawning(){
-		this.intervalReference = setInterval(this.trySpawn, this.milliseconds, this);
+		if (this.intervalReference === null) this.intervalReference = setInterval(this.trySpawn, this.milliseconds, this);
 	}
 	
 	
@@ -29,5 +29,6 @@ class Spawnpoint{
 	
 	stopSpawning(){
 		clearInterval(this.intervalReference);
+		this.intervalReference = null;
 	}
 }

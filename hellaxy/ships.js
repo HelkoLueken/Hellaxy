@@ -353,7 +353,7 @@ class Ship extends Body{
 	}
 	
 	
-	
+	//@Description Spawns a clone of the ship saved in Hellaxy.shipTypes in Hellaxy.ships. It will be displayed at the space screen. Ships with the player1 control will always be put at Hellaxy.ships[0]!
 	spawn(atX, atY, ctrl, abgang){
 		var neuerSpawn = this.clone();
 		neuerSpawn.x = setProp(atX + Math.floor((Math.random() * 10 * this.skin.width) - 5 * this.skin.width), 0);
@@ -362,6 +362,12 @@ class Ship extends Body{
 		neuerSpawn.ctrl = setProp(ctrl, "none");
 		neuerSpawn.abgang = setProp(abgang, function(){});
 		neuerSpawn.ID = Hellaxy.ships.length;
+		if (neuerSpawn.ctrl === player1 && Hellaxy.ships.length > 0){
+			Hellaxy.ships.push(Hellaxy.ships[0]);
+			Hellaxy.ships[0] = neuerSpawn;
+			Console.log("Hint: You didnt spawn the player first. The players ship will however always be referencable as Hellaxy.ships[0]");
+			return;
+		}
 		Hellaxy.ships.push(neuerSpawn);
 	}
 	
@@ -395,6 +401,12 @@ class Ship extends Body{
 	vanish(){
 		this.drop();
 		Hellaxy.space.refreshIDs();
+	}
+	
+	
+	
+	drop(){
+		Hellaxy.ships.splice(Hellaxy.ships.indexOf(this), 1);
 	}
 }
 

@@ -78,6 +78,12 @@ class Projectile extends Body{
 			return 0;
 		}
 		
+	
+	
+	drop(){
+		Hellaxy.projectiles.splice(Hellaxy.projectiles.indexOf(this), 1);
+	}
+		
 		
 		
 	move(){
