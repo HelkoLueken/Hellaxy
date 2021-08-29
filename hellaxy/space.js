@@ -16,7 +16,7 @@
 	
 	
 	Hellaxy.space.display = function(){
-		for (var posY = -100; posY < 1100; posY += 100 * this.scale){
+		for (var posY = -100; posY < 1200; posY += 100 * this.scale){
 			for (var posX = -100; posX < 2000; posX += 100 * this.scale){
 				Helon.ctx.drawImage(this.bg, posX - ((this.offsetX % 100) * this.scale), posY - ((this.offsetY % 100) * this.scale), 100 * this.scale, 100 * this.scale);
 			}
@@ -46,25 +46,6 @@
 			for (var s = i+1; s < this.ships.length; s++){
 				if (this.ships[i].collidesWith(this.ships[s])) this.ships[i].collideWith(this.ships[s]);
 			}
-			for (var p = 0; p < this.projectiles.length; p++){
-				if (this.projectiles[p].tics <= 0){
-					this.projectiles[p].drop();
-					p--;
-					continue;
-				}
-				if (this.ships[i] !== this.projectiles[p].emitter && this.ships[i].overlaps(this.projectiles[p])){
-					var potothers = this.ships[i].nextShips(undefined ,this.projectiles[p].size);
-					this.projectiles[p].hit(this.ships[i]);
-					for (var n = 0; n < potothers; n++){
-						this.projectiles[p].hit(potothers[n]);
-					}
-				}
-			}
-			if (this.ships[i].hp <= 0){
-				this.ships[i].explode();
-				this.ships.splice(i,1);
-				i--;
-			}
 		}*/
 	}
 	
@@ -93,14 +74,6 @@
 		for (planet in Hellaxy.planets){
 			if (Hellaxy.planets[planet].distanceTo({x : this.offsetX, y : this.offsetY}) > 3000) Hellaxy.planets[planet].stopSpawning();
 			else Hellaxy.planets[planet].startSpawning();
-		}
-	}
-	
-	
-	//@Description soll ausgemustert werden
-	Hellaxy.space.refreshIDs = function(){
-		for (var id = 0; id < Hellaxy.ships.length; id++){
-			Hellaxy.ships[id].ID = id;
 		}
 	}
 	

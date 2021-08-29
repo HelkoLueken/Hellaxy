@@ -1,13 +1,16 @@
 class Spawnpoint{
 	
-	constructor(ship, x, y , milliseconds, percent, quantity){
-		if (typeof ship === "Object") this.ship = ship;
-		else this.ship = trySet(Hellaxy.shipTypes[ship], Hellaxy.shipTypes.none_testarrow);
+	constructor(shipID, x, y , milliseconds, percent, quantity){
+		if (Hellaxy.shipTypes[shipID] !== undefined) this.ship = Hellaxy.shipTypes[shipID];
+		else{
+			this.ship = Hellaxy.shipTypes.none_testarrow;
+			console.log("Warning tried to create spawnpoint for unknown shiptype: " + shipID + ". Created one for testarrows instead.");
+		}
 		this.x = trySet(x, 0);
 		this.y = trySet(y, 0);
 		this.quantity = trySet(quantity, 1);
 		this.milliseconds = trySet(milliseconds, 8000);
-		this.percent = trySet(percent, 50);
+		this.percent = trySet(percent, 70);
 		this.intervalReference = null;
 	}
 	

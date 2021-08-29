@@ -113,10 +113,7 @@ function setupControls(){
 				this.fire(3);
 			}
 		}
-		else{
-			this.acc();
-			this.turnFrom("walls");
-		}
+		else this.acc();
 	}
 	
 	
@@ -214,12 +211,6 @@ function setupControls(){
 				this.useSpecial(1);
 			}
 		}
-	}
-	
-	npc.patrol = function(){
-		this.acc();
-		this.turn();
-		if (intervalReact(true, 3000, this.ID))this.turnArround();
 	}
 
 	} */

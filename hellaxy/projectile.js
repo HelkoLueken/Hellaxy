@@ -52,10 +52,12 @@ class Projectile extends Body{
 		
 		
 		hit(obj){
-			if (obj.fraction === this.emitter.fraction) return;
 			if (this.pen >= obj.armour){
 				if (obj.shield <= 0) obj.hp -= this.alpha;
-				if (obj.shield > 1) obj.shield -= this.alpha;
+				if (obj.shield >= 1){
+					if (obj.shield < 0) obj.shield = 0;
+					obj.shield -= this.alpha;
+				}
 				if (obj.maxShield > 0 && obj.maxShield < 1) obj.hp -= this.alpha * obj.shield;
 				this.sound("pen");
 				this.drop();
@@ -68,16 +70,6 @@ class Projectile extends Body{
 			}
 		}
 		
-		
-		
-		ID(){
-			for (var id = 0; id < this.emitter.screen.projectiles.length; id++){
-				if (this.emitter.screen.projectiles[id] === this) return id;
-			}
-			console.log("Projectile ID not found");
-			return 0;
-		}
-		
 	
 	
 	drop(){
@@ -87,7 +79,14 @@ class Projectile extends Body{
 		
 		
 	move(){
+		if (this.tics <= 0) this.drop();
 		super.move();
+		for (let s = 0; s < Hellaxy.ships.length; s++){
+			if (this.hits(Hellaxy.ships[s])){
+				this.hit(Hellaxy.ships[s]);
+				this.tics = 0;
+			}
+		}
 		this.tics--;
 	}
 }

@@ -46,7 +46,8 @@ function addSpawn(ship, milliseconds, percent, quantity){
 
 function setupPlanets(){
 	new Planet("humania", 1000, 1000);
+	addSpawn("humanian_shuttle"), 60000, 20;
 	new Planet("pontes", 1420, 2550);
-	addSpawn(Hellaxy.shipTypes.none_testarrow);
+	addSpawn("birchanian_glider", 10000, 50, 4);
 	console.log("Planets", Hellaxy.planets);
 }
