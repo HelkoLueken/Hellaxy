@@ -36,7 +36,6 @@ function setupHellaxyScreens(){
 					Helon.ctx.strokeRect(hor*70 - 4, ver*70 + 46, 70, 70);
 					if (click){
 						Hellaxy.shipTypes[shiptype].spawn(400, 400, player1, function(){ //Ja das muss so umständlich angesprochen werden, die Laufvariable ist hier iwie nur ein String
-							addMsg("Report critical Damage");
 							Hellaxy.space.clear();
 							resetAudio();
 							setScreen("menue");

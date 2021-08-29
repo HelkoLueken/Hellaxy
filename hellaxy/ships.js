@@ -4,9 +4,8 @@ class Ship extends Body{
 		this.shield = 0;
 		this.armour = 1;
 		this.aim = 0;
-		this.ID = 0;
-		this.staticID = 0;
 		this.ctrl = "none";
+		this.abgang = function(){};
 		this.active = true;
 		this.screen = Hellaxy.space;
 		for (var property in specs){
@@ -130,7 +129,9 @@ class Ship extends Body{
 		this.skin = Helon.ress.images.proj_explosion;
 		play("explosion1");
 		if (exists(this.abgang)) this.abgang();
-		setTimeout(function(wreck){wreck.vanish()}, 2000, this);
+		setTimeout(function(wreck){wreck.drop()}, 2000, this);
+		this.ctrl = function(){};
+		this.move = super.move;
 	}
 	
 	
@@ -227,24 +228,31 @@ class Ship extends Body{
 	}
 	
 	
-	/*
+	
+	move(){
+		super.move();
+		if (this.hp <= 0) this.explode();
+	}
+	
+	
+	
 	nextShip(search, range){
 		if (!exists(search)) search = "anything";
 		if (!exists(range)) range = 700;
 		var pot = false;
-		for (var k = 0; k < this.sector.ships.length; k++){
-			if (this.distanceTo(this.sector.ships[k]) <= range && k !== this.ID && this.sector.ships[k].fraction !== "asteroid"){
-				if (pot === false || this.distanceTo(this.sector.ships[k]) < this.distanceTo(pot)){
+		for (var k = 0; k < Hellaxy.ships.length; k++){
+			if (this.distanceTo(Hellaxy.ships[k]) <= range && Hellaxy.ships[k] !== this &&  Hellaxy.ships[k].fraction !== "asteroid"){
+				if (pot === false || this.distanceTo(Hellaxy.ships[k]) < this.distanceTo(pot)){
 					if (search === "anything"){
 						pot = Hellaxy.sector.ships[k];
 						continue;
 					}
 					if (search === "anythingElse"){
-						if (this.sector.ships[k].fraction !== this.fraction) pot = Hellaxy.sector.ships[k];
+						if (Hellaxy.ships[k].fraction !== this.fraction) pot = Hellaxy.ships[k];
 					}
 					else {
-						if (search === this.fraction && search === this.sector.ships[k].fraction && this.sector.ships[k].ctrl !== this.ctrl) pot = Hellaxy.sector.ships[k];
-						if (search !== this.fraction && search === this.sector.ships[k].fraction) pot = Hellaxy.sector.ships[k];
+						if (search === this.fraction && search ===  Hellaxy.ships[k].fraction &&  Hellaxy.ships[k].ctrl !== this.ctrl) pot = Hellaxy.sector.ships[k];
+						if (search !== this.fraction && search ===  Hellaxy.ships[k].fraction) pot = Hellaxy.sector.ships[k];
 					}
 				}
 			}
@@ -252,7 +260,7 @@ class Ship extends Body{
 		return pot;
 	}
 	
-	
+	/*
 	
 	nextShips(search, range){
 		var matches = [];
@@ -345,12 +353,7 @@ class Ship extends Body{
 		}
 		Helon.ctx.strokeStyle = "yellow";
 	} 
-
 	
-	
-	refreshID(){
-		Hellaxy.space.refreshIDs();
-	}
 	
 	
 	//@Description Spawns a clone of the ship saved in Hellaxy.shipTypes in Hellaxy.ships. It will be displayed at the space screen. Ships with the player1 control will always be put at Hellaxy.ships[0]!
@@ -359,9 +362,8 @@ class Ship extends Body{
 		neuerSpawn.x = setProp(atX + Math.floor((Math.random() * 10 * this.skin.width) - 5 * this.skin.width), 0);
 		neuerSpawn.y = setProp(atY + Math.floor((Math.random() * 10 * this.skin.width) - 5 * this.skin.width), 0);
 		neuerSpawn.angle = Math.floor(Math.random() * 359);
-		neuerSpawn.ctrl = setProp(ctrl, "none");
-		neuerSpawn.abgang = setProp(abgang, function(){});
-		neuerSpawn.ID = Hellaxy.ships.length;
+		if (ctrl !== undefined && typeof ctrl === "function") neuerSpawn.ctrl = ctrl;
+		if (abgang !== undefined && typeof abgang === "function") neuerSpawn.abgang = abgang;
 		if (neuerSpawn.ctrl === player1 && Hellaxy.ships.length > 0){
 			Hellaxy.ships.push(Hellaxy.ships[0]);
 			Hellaxy.ships[0] = neuerSpawn;
@@ -398,13 +400,6 @@ class Ship extends Body{
 	
 	
 	
-	vanish(){
-		this.drop();
-		Hellaxy.space.refreshIDs();
-	}
-	
-	
-	
 	drop(){
 		Hellaxy.ships.splice(Hellaxy.ships.indexOf(this), 1);
 	}
@@ -433,7 +428,7 @@ function setupShips(){  //designation, fraction, hp, shield, armour, a, wp1-3, s
 	new Ship({designation : "spiketank", fraction : "chestanian", hp : 1200, armour : 3, a : 0.03, wp1 : "spike_artillery"});
 	new Ship({designation : "glider", fraction : "chestanian", hp : 500, armour : 2, a : 0.06, wp1 : "emp_director_1"});
 	new Ship({designation : "quintglider", fraction : "chestanian", hp : 2500, armour : 2, a : 0.05, wp1 : "emp_director_2"});
-	new Ship({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.11, wp1 : "emp_director_small"});
+	new Ship({designation : "glider", fraction : "birchanian", hp : 10, armour : 1, a : 0.11, wp1 : "emp_director_small", ctrl : npc.rammer});
 	new Ship({designation : "fortress_ai", fraction : "birchanian", hp : 200000, armour : 1, a : 0});
 	
 	console.log("Shiptypes:", Hellaxy.shipTypes);

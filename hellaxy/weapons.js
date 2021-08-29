@@ -6,11 +6,11 @@ class Weapon {
 		this.alpha = setProp(alpha, 10);
 		this.pen = setProp(pen, 4);
 		this.reload = setProp(reload, 400);
+		this.timeoutReference = null;
 		this.ammo = setProp(ammo, 400);
 		
 		Hellaxy.weapons[this.designation] = this;
 	}
-	
 	
 	
 	
@@ -25,10 +25,12 @@ class Weapon {
 	
 	
 	fire(){
-		if (intervalReact(this.ammo > 0, this.reload, this.designation + this.ship.staticID)){
+		if (this.ammo <= 0) return;
+		if (this.timeoutReference === null){
+			this.timeoutReference = setTimeout(function(wpn){wpn.timeoutReference = null}, this.reload, this);
 			this.ammo --;
 			new Projectile(this);
-		} 
+		}
 	}
 }
 

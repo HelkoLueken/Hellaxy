@@ -13,6 +13,7 @@ class Special {
 	
 	
 	exe(){
+		console.log("Specials funktioneren noch nicht wieder. Du musst erst die Intervallmethode so umgestallten, wie bei den Weapons. Helko, du lazy shit");
 		if (intervalReact(this.ammo > 0, this.reload, "special" + this.ship.staticID)){
 			this.ammo --;
 			this.action();
