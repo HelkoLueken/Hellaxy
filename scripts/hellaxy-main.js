@@ -74,6 +74,7 @@ hellaxy.loadRess = function(){
 
 hellaxy.drawLoop = function(){
 	hellaxy.screen.draw();
+	cursor.draw();
 	requestAnimationFrame(hellaxy.drawLoop);
 }
 
@@ -84,8 +85,9 @@ hellaxy.createScreens = function(){
 	new Screen("loading", "black", null, function(){
 		this.drawBar(10, 40, 80, 10, "yellow", hellaxy.images.loaded/hellaxy.images.quantity);
 		if (hellaxy.images.quantity !== 0 && hellaxy.images.loaded === hellaxy.images.quantity) {
-			console.log("Loaded Images", hellaxy.images);
-			hellaxy.setScreen("title");
+			//console.log("Loaded Images", hellaxy.images);
+			loadCursor();
+			//hellaxy.setScreen("title");
 		}
 	});
 }

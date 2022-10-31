@@ -20,15 +20,18 @@
 	<script src="audio/.index.js"></script>
 	<script src="scripts/tools.js"></script>
 	<script src="scripts/hellaxy-main.js"></script>
+	<script src="scripts/screen.js"></script>
 	<script src="scripts/body.js"></script>
 	<script src="scripts/input.js"></script>
-	<script src="scripts/screen.js"></script>
+	
 	
 	
 	<!-- Main-script that starts the game procedure -->
 	<script type="text/javascript">
 	
 		var canvas = document.getElementById("canvas");
+		
+		var scale = 1;
 		
 		function fitCanvasToWindow(){
 			canvas.width = window.innerWidth - 20;
@@ -37,6 +40,7 @@
 				canvas.height = window.innerHeight - 40;
 				canvas.width = canvas.height * (16/9);
 			}
+			scale = canvas.width/1920;
 		}
 		
 		window.addEventListener('resize', function(event) {

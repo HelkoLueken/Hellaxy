@@ -1,14 +1,15 @@
 class Screen{
 	constructor(ID, color, theme, gui){	//ID, bg, theme, action
-		this.ID = trySet(ID, "Nameless screen " + hellaxy.screens.length);
+		this.ID = trySet(ID, "Nameless screen");
 		this.offsetX = 0;
 		this.offsetY = 0;
 		this.color = trySet(color, "black");
 		this.theme = trySet(hellaxy.audio[theme], new Audio);
 		this.gui = trySet(gui, function(){});
 		this.bodies = [];
+		this.scale = 1;
 		
-		hellaxy.screens[ID] = this;
+		if (exists(ID)) hellaxy.screens[ID] = this;
 	}
 	
 	

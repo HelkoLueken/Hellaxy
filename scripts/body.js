@@ -13,7 +13,7 @@ class Body{
 		this.mass = 1;
 		this.width = 1;
 		this.height = 1;
-		this.screen = {};
+		this.screen = new Screen();
 	}
 		
 	
@@ -47,27 +47,16 @@ class Body{
 	
 	draw(){
 		if (!this.isVisible()) return;
-		var x = (this.x - this.screen.offsetX) * this.screen.scale;
-		var y = (this.y - this.screen.offsetY) * this.screen.scale;
+		let x = (this.x - this.screen.offsetX) * this.screen.scale;
+		let y = (this.y - this.screen.offsetY) * this.screen.scale;
+		let visibleX = x - (window.scale * this.screen.scale * this.width) / 2;
+		let visibleY = y - (window.scale * this.screen.scale * this.height) / 2;
+		let visibleWidth = (window.scale * this.screen.scale * this.width)
+		let visibleHeight = (window.scale * this.screen.scale * this.height)
 		hellaxy.ctx.translate(x, y); // Drehung
 		hellaxy.ctx.rotate(this.angle * Math.PI / 180);
 		hellaxy.ctx.translate(-x, -y);
-		hellaxy.ctx.drawImage(this.skin, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
-		hellaxy.ctx.translate(x, y); // Rückdrehung
-		hellaxy.ctx.rotate(-this.angle * Math.PI / 180);
-		hellaxy.ctx.translate(-x, -y);
-	}
-	
-	
-	
-	drawAs(that){
-		if (!this.isVisible()) return;
-		var x = (this.x - this.screen.offsetX) * this.screen.scale;
-		var y = (this.y - this.screen.offsetY) * this.screen.scale;
-		hellaxy.ctx.translate(x, y); // Drehung
-		hellaxy.ctx.rotate(this.angle * Math.PI / 180);
-		hellaxy.ctx.translate(-x, -y);
-		hellaxy.ctx.drawImage(that, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
+		hellaxy.ctx.drawImage(this.skin, visibleX, visibleY, visibleWidth, visibleHeight); // Display
 		hellaxy.ctx.translate(x, y); // Rückdrehung
 		hellaxy.ctx.rotate(-this.angle * Math.PI / 180);
 		hellaxy.ctx.translate(-x, -y);
@@ -139,7 +128,7 @@ class Body{
 	
 	
 	setSkin(to){
-		this.skin = getImg(to);
+		this.skin = hellaxy.images[to];
 		this.width = this.skin.naturalWidth;
 		this.height = this.skin.naturalHeight;
 	}

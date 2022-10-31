@@ -1,4 +1,8 @@
-Applications are to be placed within an own dedicated folder.
-All necessary scripts must be referenced within the scripts section of the index.html file.
-All used ressources are stored within the images and audio folders. Each file must be refernced in the _ref.js.
-By creating an "application" object for each programm, helon will automatically manage the loading process.
+The game runs completely an an html web page.
+To start the game, simply open the index.html file with a modern HTML5 compatible web Browser like Mozilla Firefox.
+
+Have fun cruising through the mysterious galaxy of hellaxy :)
+
+-HelkoLueken
+
+Github repository: https://github.com/HelkoLueken/Hellaxy

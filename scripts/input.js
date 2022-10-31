@@ -11,25 +11,34 @@
 	enter : false,
 };
 
-
-
-
-
 var cursor = new Body();
 var click = false;
 
 
+
+
+
 function loadCursor(){
-	cursor.screen = new Screen();
+	
+	if (cursor.skin.src != "") return;
 	cursor.setSkin("cursor");
-	cursor.display = function(){
-		if (click){ 
-			cursor.drawAs(Helon.ress.images["arrow"]);
-		}
-		else {
-			cursor.draw();
-		}
-	}
+	
+	document.onmousedown = function(trigger) {
+		cursor.setSkin("arrow");
+	    click = true;
+	};
+	
+	document.onmouseup = function(trigger) {
+		cursor.setSkin("cursor");
+	    click = false;
+	};
+	
+	document.onmousemove = function(m) {
+	    let canvas = document.getElementById("canvas")
+	
+	    cursor.x = ((m.pageX - canvas.offsetLeft) * canvas.width / canvas.clientWidth) - 10;
+	    cursor.y = ((m.pageY - canvas.offsetTop) * canvas.height / canvas.clientHeight) -10;
+	};
 }
 
 
@@ -71,16 +80,3 @@ addEventListener("keyup", function(w) {
 	if (w.keyCode === 187) key.plus = false;
 	if (w.keyCode === 189) key.minus = false;
 }, false);
-
-document.onmousedown = function(trigger) {
-    click = true;
-};
-document.onmouseup = function(trigger) {
-    click = false;
-};
-document.onmousemove = function(m) {
-    let canvas = document.getElementById("canvas")
-
-    cursor.x = (m.pageX - canvas.offsetLeft) * canvas.width / canvas.clientWidth;
-    cursor.y = (m.pageY - canvas.offsetTop) * canvas.height / canvas.clientHeight;
-};
