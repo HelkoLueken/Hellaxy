@@ -1,81 +1,49 @@
 <!DOCTYPE html>
 <html>
 
-<title> Helon Game Player </title>
+	<title> Helon Game Player </title>
+	
+	<head>
+		<link rel="icon" href="images/tabicon.png" type="image/png"	/>
+		<link rel="stylesheet" href="index.css">
+	</head>
+	
+	<body bgcolor="#141414" onload=fitCanvasToWindow()>
+		<h1>  
+			<?php  
+				$declaration = "Wurst";  
+			?>     
+		</h1> 
+		<p align = "Center">
+	    <Canvas id="canvas" Width='100%' Height='100%' style="border:1px solid #000000; cursor: none"></Canvas>
+	</body>
 
-<head>
-	<link rel="icon" href="favicon.png" type="image/png"	/>
-	<link rel="stylesheet" href="index.css">
-	<!--<script src="filepathreader.php"></script> Dieser Block ruft die Datei filepathreader.php auf, scheint aber probleme zu haben... ka
-	<script type="Javascript"> 
-		$.ajax({
-            url: "getImages.php",
-            dataType: "json",
-            success: function (data) {
 
-                $.each(data, function(i,filename) {
-                    $('#imageDiv').prepend('<img src="'+ filename +'"><br>');
-                });
-            }
-        });
-	</script> -->
-	<script type="Javascript"> 
-		var folder = "images/";
 
-		$.ajax({
-			url : folder,
-			success: function (data) {
-				$(data).find("a").attr("href", function (i, val) {
-					if( val.match(/\.(jpe?g|png|gif)$/) ) { 
-						$("body").append( "<img src='"+ folder + val +"'>" );
-						console.log("bing");
-					} 
-				});
-			}
+	<!--  Import external Scripts -->
+	<script src="image/.index.js"></script>
+	<script src="audio/.index.js"></script>
+	<script src="scripts/tools.js"></script>
+	<script src="scripts/hellaxy-main.js"></script>
+	<script src="scripts/screen.js"></script>
+	
+	
+	<!-- Main-script that starts the game procedure -->
+	<script type="text/javascript">
+	
+		var canvas = document.getElementById("canvas");
+		
+		function fitCanvasToWindow(){
+			canvas.width = window.innerWidth - 20;
+			canvas.height = window.innerHeight - 400;
+		}
+		
+		window.addEventListener('resize', function(event) {
+			fitCanvasToWindow()
 		});
+		
+		hellaxy.runOn(canvas);
+
 	</script>
-	<script src="helon/tools.js"></script>
-	<script src="images/_ref.js"></script>
-	<script src="audio/_ref.js"></script>
-	<script src="helon/body.js"></script>
-	<script src="helon/screen.js"></script>
-	<script src="helon/helon.js"></script>
-	<script src="helon/input.js"></script>
-	<!--  Add Scripts -->
-	
-	<script src="hellaxy/hellaxy.js"></script>
-	<script src="hellaxy/interface.js"></script>
-	<script src="hellaxy/controls.js"></script>
-	<script src="hellaxy/projectile.js"></script>
-	<script src="hellaxy/weapons.js"></script>
-	<script src="hellaxy/specials.js"></script>
-	<script src="hellaxy/spawnpoint.js"></script>
-	<script src="hellaxy/planet.js"></script>
-	<script src="hellaxy/space.js"></script>
-	<script src="hellaxy/ships.js"></script>
-	
-	
-	
-	
-	
-</head>
 
-<body bgcolor="#000000">
-	<p align = "Center">
-    		<Canvas id="Canvas" Width="1920" Height="1080" style="border:1px solid #000000; cursor: none"></Canvas>
-	<p align = "Center">
-	<a href="https://github.com/HelkoLueken" target="blank">
-		<font face="Consolas">
-			<font color="#ffff00" size="18"> More Info & Latest News </font>
-		</font>
-	</a>
-</body>
-
-
-<script type="text/javascript">
-		var Canvas = document.getElementById("Canvas");
-		Helon.ctx = Canvas.getContext("2d");
-		Helon.start(); 
-</script>
-	
 </html>
