@@ -49,13 +49,13 @@ class Body{
 		if (!this.isVisible()) return;
 		var x = (this.x - this.screen.offsetX) * this.screen.scale;
 		var y = (this.y - this.screen.offsetY) * this.screen.scale;
-		Helon.ctx.translate(x, y); // Drehung
-		Helon.ctx.rotate(this.angle * Math.PI / 180);
-		Helon.ctx.translate(-x, -y);
-		Helon.ctx.drawImage(this.skin, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
-		Helon.ctx.translate(x, y); // Rückdrehung
-		Helon.ctx.rotate(-this.angle * Math.PI / 180);
-		Helon.ctx.translate(-x, -y);
+		hellaxy.ctx.translate(x, y); // Drehung
+		hellaxy.ctx.rotate(this.angle * Math.PI / 180);
+		hellaxy.ctx.translate(-x, -y);
+		hellaxy.ctx.drawImage(this.skin, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
+		hellaxy.ctx.translate(x, y); // Rückdrehung
+		hellaxy.ctx.rotate(-this.angle * Math.PI / 180);
+		hellaxy.ctx.translate(-x, -y);
 	}
 	
 	
@@ -64,13 +64,13 @@ class Body{
 		if (!this.isVisible()) return;
 		var x = (this.x - this.screen.offsetX) * this.screen.scale;
 		var y = (this.y - this.screen.offsetY) * this.screen.scale;
-		Helon.ctx.translate(x, y); // Drehung
-		Helon.ctx.rotate(this.angle * Math.PI / 180);
-		Helon.ctx.translate(-x, -y);
-		Helon.ctx.drawImage(that, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
-		Helon.ctx.translate(x, y); // Rückdrehung
-		Helon.ctx.rotate(-this.angle * Math.PI / 180);
-		Helon.ctx.translate(-x, -y);
+		hellaxy.ctx.translate(x, y); // Drehung
+		hellaxy.ctx.rotate(this.angle * Math.PI / 180);
+		hellaxy.ctx.translate(-x, -y);
+		hellaxy.ctx.drawImage(that, (x - this.width/2 * this.screen.scale), (y - this.height/2 * this.screen.scale), this.width * this.screen.scale, this.height * this.screen.scale); // Display
+		hellaxy.ctx.translate(x, y); // Rückdrehung
+		hellaxy.ctx.rotate(-this.angle * Math.PI / 180);
+		hellaxy.ctx.translate(-x, -y);
 	}
 	
 	

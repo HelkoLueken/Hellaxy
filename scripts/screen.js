@@ -1,22 +1,19 @@
 class Screen{
-	constructor(ID, bg, theme, action, scale){	//ID, bg, theme, action, scale
-		this.ID = setProp(ID, "Nameless screen " + Helon.screens.length);
-		this.scale = setProp(scale, 1);
+	constructor(ID, color, theme, gui){	//ID, bg, theme, action
+		this.ID = trySet(ID, "Nameless screen " + hellaxy.screens.length);
 		this.offsetX = 0;
 		this.offsetY = 0;
-		this.height = 1080;
-		this.width = 1920;
-		this.bg = getImg(bg);
-		this.theme = getAudio(theme);
-		this.act = setProp(action, function(){});
+		this.color = trySet(color, "black");
+		this.theme = trySet(hellaxy.audio[theme], new Audio);
+		this.gui = trySet(gui, function(){});
 		this.bodies = [];
 		
-		Helon.screens[ID] = this;
+		hellaxy.screens[ID] = this;
 	}
 	
 	
 	
-	act(){
+	gui(){
 	};
 	
 	
@@ -37,6 +34,20 @@ class Screen{
 		for (var i = 0; i < this.bodies.length; i++){
 			drop(this.bodies[i]);
 		}
+	}
+	
+	
+	
+	drawBar(x, y, width, height, color, ratio){
+		hellaxy.ctx.fillStyle = "black";
+		if (this.color == "black") hellaxy.ctx.fillStyle = "white";
+		x = hellaxy.ctx.canvas.width * x /100;
+		y = hellaxy.ctx.canvas.height * y / 100;
+		width = hellaxy.ctx.canvas.width * width /100;
+		height = hellaxy.ctx.canvas.height * height / 100;
+		hellaxy.ctx.fillRect(x, y, width, height);
+		hellaxy.ctx.fillStyle = color;
+		hellaxy.ctx.fillRect(x + height * 0.1, y + 0.1 * height , (width - 0.2 * height) * ratio, height * 0.8);
 	}
 	
 	
@@ -62,12 +73,6 @@ class Screen{
 	
 	
 	
-	set(){
-		Helon.screen = this;
-	}
-	
-	
-	
 	focus(on){
 		this.offsetX = on.x - 960 / this.scale;
 		this.offsetY = on.y - 540 / this.scale;
@@ -75,12 +80,14 @@ class Screen{
 	
 	
 	
-	display(){
-		Helon.ctx.drawImage(this.bg, 0, 0);
-		for (var i = 0; i < this.bodies.length; i++){
+	draw(){
+		hellaxy.ctx.fillStyle = this.color;
+		hellaxy.ctx.fillRect(0, 0, hellaxy.ctx.canvas.width, hellaxy.ctx.canvas.height);
+		for (let i = 0; i < this.bodies.length; i++){
 			this.bodies[i].draw();
 		}
-		loop(this.theme);
+		this.gui();
+		//loop(this.theme);
 	}
 	
 	

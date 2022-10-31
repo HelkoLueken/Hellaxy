@@ -41,11 +41,7 @@ Helon.start = function(){ // Hier ist der Programmeinstieg
 		new Screen("LoadingBar", "blackscreen", "none", function(){
 			Helon.ctx.fillStyle = "black";
 			Helon.ctx.fillRect(0, 0, 1920, 1080);
-			bar(80,400,1760,120,Helon.ress.images.loaded/Helon.ress.images.quantity);
-			if (Helon.ress.images.quantity !== 0 && Helon.ress.images.loaded === Helon.ress.images.quantity) {
-				console.log("Loaded Images", Helon.ress.images);
-				Helon.app.start();
-			}
+			
 		});
 		setScreen("LoadingBar");
 	}

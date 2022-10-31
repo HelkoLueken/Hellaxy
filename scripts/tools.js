@@ -23,15 +23,10 @@ function trySet(setTo, deflt){
 			return deflt;
 		}
 		else{
-			return null;
 			console.log("Alert: Could not set property. Null was set instead!");
+			return null;
 		}
 	}
-}
-
-//Alter Name - ergibt wenig Sinn
-function setProp(par, deflt){
-	return trySet(par, deflt);
 }
 
 
@@ -147,16 +142,6 @@ function button(posx, posy, width, height, tag, colour, action){
 	Helon.ctx.fillStyle = "black";
 	Helon.ctx.fillText(tag, posx + ((width - Helon.ctx.measureText(tag).width)*0.5), textY);
 	Helon.ctx.fillStyle = "yellow";
-}
-
-
-
-function bar(x, y, width, height, ratio){
-	Helon.ctx.fillStyle = "yellow";
-	Helon.ctx.strokeStyle = "yellow";
-	Helon.ctx.strokeRect(x,y,width,height);
-	Helon.ctx.fillRect(x+10,y+10,width*ratio,height-20);
-	Helon.ctx.strokeRect(x+10,y+10,width*ratio,height-20);
 }
 
 

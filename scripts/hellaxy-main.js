@@ -8,7 +8,6 @@ hellaxy.projectiles = [];
 hellaxy.locations = {};
 hellaxy.playerShip = {};
 hellaxy.lastStats = {};
-hellaxy.tics = 0;
 hellaxy.muted = false;
 hellaxy.screens = [];
 hellaxy.screen = {};
@@ -21,15 +20,28 @@ hellaxy.images = {
 
 
 
+
 hellaxy.runOn = function(canvas){
-	hellaxy.canvas = canvas.getContext("2d");
+	hellaxy.ctx = canvas.getContext("2d");
 	if (!hellaxy.loadRess()){
 		alert("Error while loading game ressources!")
 		return;
 	}
+	hellaxy.createScreens();
+	hellaxy.setScreen("loading");
+	setInterval(hellaxy.screen.physics(), 35);
+	hellaxy.drawLoop();
+}
 
 
-	hellaxy.loop();
+
+hellaxy.setScreen = function(screenName){
+	if (!exists(hellaxy.screens[screenName])){
+		console.log("Error: could not find screen to switch to!");
+		if (!exists(hellaxy.screen)) hellaxy.screen = new Screen();
+		return;
+	}
+	hellaxy.screen = hellaxy.screens[screenName];
 }
 
 
@@ -39,7 +51,7 @@ hellaxy.loadRess = function(){
 	
 	for (let i = 0; i < audioFiles.length; i++){
 			audioName = audioFiles[i].split(".")[0];
-			var aud = new Audio("audio/" + audioName)
+			var aud = new Audio("audio/" + audioFiles[i])
 			if (!exists(aud)) return false;
 			hellaxy.audio[audioName] = aud;
 		}
@@ -48,7 +60,7 @@ hellaxy.loadRess = function(){
 		imageName = imageFiles[i].split(".")[0];
 		hellaxy.images.quantity += 1;
 		img = new Image();
-		img.src = "image/"+imageName;
+		img.src = "image/" + imageFiles[i];
 		img.addEventListener("load",function(e){
 			hellaxy.images.loaded +=1;
 		});
@@ -60,93 +72,20 @@ hellaxy.loadRess = function(){
 
 
 
-hellaxy.loop = function(){
-	
-	
-}
-/*
-var hellaxy = new App(function(){
-	setupSpace();
-	setuphellaxyScreens();
-	setupWeapons();
-	setupSpecials();
-	setupControls();
-	setupShips();
-	setupPlanets();
-	setScreen("title");
-});
-
-
-
-
-
-Helon.screen = new Screen();
-Helon.previousScreen = new Screen();
-
-Helon.app = null;
-class App{
-	constructor(setup){
-		Helon.app = this;
-		if (typeof setup == "function") this.start = setup;
-	}
-	
-	start(){}
+hellaxy.drawLoop = function(){
+	hellaxy.screen.draw();
+	requestAnimationFrame(hellaxy.drawLoop);
 }
 
 
 
-
-
-Helon.start = function(){ // Hier ist der Programmeinstieg
-	Helon.loadRess();
-	setTimeout(loadCursor, 2000);
-	new Screen("Lobby", "blackscreen", "none", function(){
-		Helon.ctx.fillRect(0, 0, 1920, 1080);
-		Helon.ctx.fillStyle = "yellow";
-		Helon.ctx.font = "32px Consolas";
-		Helon.ctx.fillText("Helon Engine", 200, 600);
-		Helon.ctx.fillStyle = "black";
+hellaxy.createScreens = function(){
+	
+	new Screen("loading", "black", null, function(){
+		this.drawBar(10, 40, 80, 10, "yellow", hellaxy.images.loaded/hellaxy.images.quantity);
+		if (hellaxy.images.quantity !== 0 && hellaxy.images.loaded === hellaxy.images.quantity) {
+			console.log("Loaded Images", hellaxy.images);
+			hellaxy.setScreen("title");
+		}
 	});
-	setScreen("Lobby");
-	
-	if (Helon.app != null){
-		new Screen("LoadingBar", "blackscreen", "none", function(){
-			Helon.ctx.fillStyle = "black";
-			Helon.ctx.fillRect(0, 0, 1920, 1080);
-			bar(80,400,1760,120,Helon.ress.images.loaded/Helon.ress.images.quantity);
-			if (Helon.ress.images.quantity !== 0 && Helon.ress.images.loaded === Helon.ress.images.quantity) {
-				console.log("Loaded Images", Helon.ress.images);
-				Helon.app.start();
-			}
-		});
-		setScreen("LoadingBar");
-	}
-	else alert("No executable Application found");
-	Helon.loop();
 }
-
-
-
-Helon.loop = function(){
-	Helon.screen.display();
-	Helon.screen.physics();
-	Helon.screen.act();
-	if (cursor.display != undefined) cursor.display();
-	Helon.tics++;
-	requestAnimationFrame(Helon.loop);
-}
-
-	
-	
-function setScreen(ID){
-	if (ID instanceof Screen && ID !== Helon.screen){
-		Helon.previousScreen = Helon.screen;
-		Helon.screen = ID;
-	}
-	if (exists(Helon.screens[ID]) && ID !== Helon.screen.ID){
-		Helon.previousScreen = Helon.screen;
-		Helon.screen = Helon.screens[ID];
-	}
-	
-}
-*/

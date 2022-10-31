@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html>
 
-	<title> Helon Game Player </title>
+	<title> Hellaxy </title>
 	
 	<head>
 		<link rel="icon" href="images/tabicon.png" type="image/png"	/>
 		<link rel="stylesheet" href="index.css">
 	</head>
 	
-	<body bgcolor="#141414" onload=fitCanvasToWindow()>
-		<h1>  
-			<?php  
-				$declaration = "Wurst";  
-			?>     
-		</h1> 
+	<body bgcolor="#444444" onload=fitCanvasToWindow()>
 		<p align = "Center">
 	    <Canvas id="canvas" Width='100%' Height='100%' style="border:1px solid #000000; cursor: none"></Canvas>
 	</body>
@@ -25,6 +20,8 @@
 	<script src="audio/.index.js"></script>
 	<script src="scripts/tools.js"></script>
 	<script src="scripts/hellaxy-main.js"></script>
+	<script src="scripts/body.js"></script>
+	<script src="scripts/input.js"></script>
 	<script src="scripts/screen.js"></script>
 	
 	
@@ -35,7 +32,11 @@
 		
 		function fitCanvasToWindow(){
 			canvas.width = window.innerWidth - 20;
-			canvas.height = window.innerHeight - 400;
+			canvas.height = canvas.width * (9/16);
+			if (canvas.height > window.innerHeight - 40){
+				canvas.height = window.innerHeight - 40;
+				canvas.width = canvas.height * (16/9);
+			}
 		}
 		
 		window.addEventListener('resize', function(event) {

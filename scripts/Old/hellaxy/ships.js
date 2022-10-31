@@ -281,77 +281,77 @@ class Ship extends Body{
 	
 	printBar(){
 		if (this.hp <=0) return;
-		Helon.ctx.strokeStyle = "red";  //infotafel für Schiffe
-		Helon.ctx.fillStyle = "green";
+		hellaxy.canvas.strokeStyle = "red";  //infotafel fï¿½r Schiffe
+		hellaxy.canvas.fillStyle = "green";
 		var x = (this.x - this.screen.offsetX) * this.screen.scale - this.width/2 * this.screen.scale;
 		var y = (this.y - this.screen.offsetY) * this.screen.scale - this.height/1.7 * this.screen.scale;
-		Helon.ctx.strokeRect(x, y, this.width * this.screen.scale, 6);
-		Helon.ctx.fillRect(x, y, this.width * (this.hp / this.mass) * this.screen.scale, 6);
-		Helon.ctx.fillStyle = "cyan";
-		Helon.ctx.fillRect(x, y, this.width * (this.shield / this.maxshield) * this.screen.scale, 6);
-		Helon.ctx.strokeStyle = "yellow";
-		Helon.ctx.fillStyle = "yellow";
+		hellaxy.canvas.strokeRect(x, y, this.width * this.screen.scale, 6);
+		hellaxy.canvas.fillRect(x, y, this.width * (this.hp / this.mass) * this.screen.scale, 6);
+		hellaxy.canvas.fillStyle = "cyan";
+		hellaxy.canvas.fillRect(x, y, this.width * (this.shield / this.maxshield) * this.screen.scale, 6);
+		hellaxy.canvas.strokeStyle = "yellow";
+		hellaxy.canvas.fillStyle = "yellow";
 	}
 	
 	
 	
 	printPlayerGUI(){
-		Helon.ctx.fillStyle = "grey";
-		Helon.ctx.fillRect(0,960,1920,120);
-		Helon.ctx.fillStyle = "white";
-		Helon.ctx.fillRect(9,969,102,102);
-		Helon.ctx.strokeStyle = "black";
-		Helon.ctx.lineWidth = 10;
-		Helon.ctx.strokeRect(9,969,1902,102);
-		Helon.ctx.strokeRect(9,969,102,102);
-		Helon.ctx.drawImage(this.skin, 14, 974, 92, 92);
-		Helon.ctx.fillStyle = "black";
-		if (this.maxshield !== 0) Helon.ctx.fillText("Shield:", 120, 1005);
-		Helon.ctx.fillText("Structure:", 120, 1045);
-		Helon.ctx.fillStyle = "red";
-		if (this.maxshield !== 0) Helon.ctx.fillRect(300, 980, 200, 30);
-		Helon.ctx.fillRect(300, 1020, 200, 30);
-		Helon.ctx.fillStyle = "cyan";
-		if (this.shield !== 0) Helon.ctx.fillRect(300, 980, 200 * (this.shield / this.maxshield), 30);
-		Helon.ctx.fillStyle = "green";
-		Helon.ctx.fillRect(300, 1020, 200 * (this.hp / this.mass), 30);
-		Helon.ctx.lineWidth = 4;
-		if (this.shield !== 0) Helon.ctx.strokeRect(300, 980, 200, 30);
-		Helon.ctx.strokeRect(300, 1020, 200, 30);
-		Helon.ctx.lineWidth = 2;
-		Helon.ctx.fillStyle = "black";
-		if (this.shield !== 0) Helon.ctx.fillText(this.shield, 310, 1005);
-		Helon.ctx.fillText(this.hp, 310, 1045);
-		Helon.ctx.fillText("=> In outer Space", 1600 , 1000);
-		Helon.ctx.fillText("  X:" + Math.round(this.x) + " Y:" + Math.round(this.y), 1600 , 1040);
+		hellaxy.canvas.fillStyle = "grey";
+		hellaxy.canvas.fillRect(0,960,1920,120);
+		hellaxy.canvas.fillStyle = "white";
+		hellaxy.canvas.fillRect(9,969,102,102);
+		hellaxy.canvas.strokeStyle = "black";
+		hellaxy.canvas.lineWidth = 10;
+		hellaxy.canvas.strokeRect(9,969,1902,102);
+		hellaxy.canvas.strokeRect(9,969,102,102);
+		hellaxy.canvas.drawImage(this.skin, 14, 974, 92, 92);
+		hellaxy.canvas.fillStyle = "black";
+		if (this.maxshield !== 0) hellaxy.canvas.fillText("Shield:", 120, 1005);
+		hellaxy.canvas.fillText("Structure:", 120, 1045);
+		hellaxy.canvas.fillStyle = "red";
+		if (this.maxshield !== 0) hellaxy.canvas.fillRect(300, 980, 200, 30);
+		hellaxy.canvas.fillRect(300, 1020, 200, 30);
+		hellaxy.canvas.fillStyle = "cyan";
+		if (this.shield !== 0) hellaxy.canvas.fillRect(300, 980, 200 * (this.shield / this.maxshield), 30);
+		hellaxy.canvas.fillStyle = "green";
+		hellaxy.canvas.fillRect(300, 1020, 200 * (this.hp / this.mass), 30);
+		hellaxy.canvas.lineWidth = 4;
+		if (this.shield !== 0) hellaxy.canvas.strokeRect(300, 980, 200, 30);
+		hellaxy.canvas.strokeRect(300, 1020, 200, 30);
+		hellaxy.canvas.lineWidth = 2;
+		hellaxy.canvas.fillStyle = "black";
+		if (this.shield !== 0) hellaxy.canvas.fillText(this.shield, 310, 1005);
+		hellaxy.canvas.fillText(this.hp, 310, 1045);
+		hellaxy.canvas.fillText("=> In outer Space", 1600 , 1000);
+		hellaxy.canvas.fillText("  X:" + Math.round(this.x) + " Y:" + Math.round(this.y), 1600 , 1040);
 		if (this.wp1 !== undefined) {
-			Helon.ctx.fillText(this.wp1.designation + ":", 550, 1000);
-			Helon.ctx.fillText(this.wp1.ammo, 580 + Helon.ctx.measureText(this.wp1.designation).width, 1000);
+			hellaxy.canvas.fillText(this.wp1.designation + ":", 550, 1000);
+			hellaxy.canvas.fillText(this.wp1.ammo, 580 + hellaxy.canvas.measureText(this.wp1.designation).width, 1000);
 			if (!queue[this.wp1.designation + this.staticID]){
-				Helon.ctx.strokeStyle = "green";
-				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(this.wp1.designation).width, 1000);
-				Helon.ctx.strokeStyle = "black";
+				hellaxy.canvas.strokeStyle = "green";
+				hellaxy.canvas.strokeText("Loaded", 650 + hellaxy.canvas.measureText(this.wp1.designation).width, 1000);
+				hellaxy.canvas.strokeStyle = "black";
 			}
 		}
 		if (this.wp2 !== undefined) {
-			Helon.ctx.fillText(this.wp2.designation + ":", 550, 1030);
-			Helon.ctx.fillText(this.wp2.ammo, 580 + Helon.ctx.measureText(this.wp2.designation).width, 1030);
+			hellaxy.canvas.fillText(this.wp2.designation + ":", 550, 1030);
+			hellaxy.canvas.fillText(this.wp2.ammo, 580 + hellaxy.canvas.measureText(this.wp2.designation).width, 1030);
 			if (!queue[this.wp1.designation + this.staticID]){
-				Helon.ctx.strokeStyle = "green";
-				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(this.wp1.designation).width, 1030);
-				Helon.ctx.strokeStyle = "black";
+				hellaxy.canvas.strokeStyle = "green";
+				hellaxy.canvas.strokeText("Loaded", 650 + hellaxy.canvas.measureText(this.wp1.designation).width, 1030);
+				hellaxy.canvas.strokeStyle = "black";
 			}
 		}
 		if (this.wp3 !== undefined) {
-			Helon.ctx.fillText(this.wp3.designation + ":", 550, 1340);
-			Helon.ctx.fillText(this.wp3.ammo, 580 + Helon.ctx.measureText(this.wp3.designation).width, 1060);
+			hellaxy.canvas.fillText(this.wp3.designation + ":", 550, 1340);
+			hellaxy.canvas.fillText(this.wp3.ammo, 580 + hellaxy.canvas.measureText(this.wp3.designation).width, 1060);
 			if (!queue[this.wp1.designation + this.staticID]){
-				Helon.ctx.strokeStyle = "green";
-				Helon.ctx.strokeText("Loaded", 650 + Helon.ctx.measureText(this.wp1.designation).width, 1060);
-				Helon.ctx.strokeStyle = "black";
+				hellaxy.canvas.strokeStyle = "green";
+				hellaxy.canvas.strokeText("Loaded", 650 + hellaxy.canvas.measureText(this.wp1.designation).width, 1060);
+				hellaxy.canvas.strokeStyle = "black";
 			}
 		}
-		Helon.ctx.strokeStyle = "yellow";
+		hellaxy.canvas.strokeStyle = "yellow";
 	} 
 	
 	
