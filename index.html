@@ -10,7 +10,7 @@
 	
 	<body bgcolor="#444444" onload=fitCanvasToWindow()>
 		<p align = "Center">
-	    <Canvas id="canvas" Width='100%' Height='100%' style="border:1px solid #000000; cursor: none"></Canvas>
+	    <Canvas id="canvas" Width=1920 Height=1080 style="border:1px solid #000000; cursor: none"></Canvas>
 	</body>
 
 
@@ -30,8 +30,7 @@
 	<script type="text/javascript">
 	
 		var canvas = document.getElementById("canvas");
-		
-		var scale = 1;
+		var ctx = canvas.getContext("2d");
 		
 		function fitCanvasToWindow(){
 			canvas.width = window.innerWidth - 20;
@@ -40,8 +39,11 @@
 				canvas.height = window.innerHeight - 40;
 				canvas.width = canvas.height * (16/9);
 			}
-			scale = canvas.width/1920;
+			ctx.resetTransform();
+			ctx.scale(canvas.width/1920, canvas.height / 1080);
 		}
+		
+		fitCanvasToWindow();
 		
 		window.addEventListener('resize', function(event) {
 			fitCanvasToWindow()

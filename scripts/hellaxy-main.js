@@ -10,8 +10,8 @@ hellaxy.playerShip = {};
 hellaxy.lastStats = {};
 hellaxy.muted = false;
 hellaxy.screens = [];
-hellaxy.screen = {};
-hellaxy.audio = {}
+hellaxy.screen = null;
+hellaxy.audio = {};
 hellaxy.images = {
 	quantity : 0,
 	loaded : 0
@@ -22,7 +22,6 @@ hellaxy.images = {
 
 
 hellaxy.runOn = function(canvas){
-	hellaxy.ctx = canvas.getContext("2d");
 	if (!hellaxy.loadRess()){
 		alert("Error while loading game ressources!")
 		return;
@@ -38,10 +37,15 @@ hellaxy.runOn = function(canvas){
 hellaxy.setScreen = function(screenName){
 	if (!exists(hellaxy.screens[screenName])){
 		console.log("Error: could not find screen to switch to!");
-		if (!exists(hellaxy.screen)) hellaxy.screen = new Screen();
 		return;
 	}
+	if (exists(hellaxy.screen)){
+		hellaxy.screen.theme.pause();
+		hellaxy.screen.theme.currentTime = 0;
+	}
+	else hellaxy.screen = new Screen();
 	hellaxy.screen = hellaxy.screens[screenName];
+	hellaxy.screen.theme.play();
 }
 
 
@@ -83,11 +87,24 @@ hellaxy.drawLoop = function(){
 hellaxy.createScreens = function(){
 	
 	new Screen("loading", "black", null, function(){
-		this.drawBar(10, 40, 80, 10, "yellow", hellaxy.images.loaded/hellaxy.images.quantity);
+		this.drawBar(100, 500, 1720, 80, "yellow", hellaxy.images.loaded/hellaxy.images.quantity);
 		if (hellaxy.images.quantity !== 0 && hellaxy.images.loaded === hellaxy.images.quantity) {
-			//console.log("Loaded Images", hellaxy.images);
+			console.log("Loaded Images", hellaxy.images);
 			loadCursor();
-			//hellaxy.setScreen("title");
+			hellaxy.setScreen("title");
 		}
 	});
+	
+	new Screen("title", "black", "theme1", function(){
+		ctx.font = "244px Consolas";
+		ctx.fillStyle = "yellow";
+		ctx.fillText("Hellaxy", 480, 320);
+		ctx.font = "32px Consolas";
+		ctx.fillText("> Press Space <", 800, 640);
+		ctx.fillText("developed by HelkoLueken", 40, 1040);
+		if (key.space) hellaxy.setScreen("menue")
+		}
+	)
+	
+	
 }

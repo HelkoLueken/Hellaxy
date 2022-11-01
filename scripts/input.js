@@ -34,10 +34,9 @@ function loadCursor(){
 	};
 	
 	document.onmousemove = function(m) {
-	    let canvas = document.getElementById("canvas")
-	
-	    cursor.x = ((m.pageX - canvas.offsetLeft) * canvas.width / canvas.clientWidth) - 10;
-	    cursor.y = ((m.pageY - canvas.offsetTop) * canvas.height / canvas.clientHeight) -10;
+		scale = canvas.width/1920;
+	    cursor.x = (m.pageX - canvas.offsetLeft - 10) / scale;
+	    cursor.y = (m.pageY - canvas.offsetTop - 10) / scale;
 	};
 }
 

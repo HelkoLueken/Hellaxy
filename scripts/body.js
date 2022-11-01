@@ -49,17 +49,17 @@ class Body{
 		if (!this.isVisible()) return;
 		let x = (this.x - this.screen.offsetX) * this.screen.scale;
 		let y = (this.y - this.screen.offsetY) * this.screen.scale;
-		let visibleX = x - (window.scale * this.screen.scale * this.width) / 2;
-		let visibleY = y - (window.scale * this.screen.scale * this.height) / 2;
-		let visibleWidth = (window.scale * this.screen.scale * this.width)
-		let visibleHeight = (window.scale * this.screen.scale * this.height)
-		hellaxy.ctx.translate(x, y); // Drehung
-		hellaxy.ctx.rotate(this.angle * Math.PI / 180);
-		hellaxy.ctx.translate(-x, -y);
-		hellaxy.ctx.drawImage(this.skin, visibleX, visibleY, visibleWidth, visibleHeight); // Display
-		hellaxy.ctx.translate(x, y); // Rückdrehung
-		hellaxy.ctx.rotate(-this.angle * Math.PI / 180);
-		hellaxy.ctx.translate(-x, -y);
+		let visibleX = x - (this.screen.scale * this.width) / 2;
+		let visibleY = y - (this.screen.scale * this.height) / 2;
+		let visibleWidth = (this.screen.scale * this.width)
+		let visibleHeight = (this.screen.scale * this.height)
+		ctx.translate(x, y); // Drehung
+		ctx.rotate(this.angle * Math.PI / 180);
+		ctx.translate(-x, -y);
+		ctx.drawImage(this.skin, visibleX, visibleY, visibleWidth, visibleHeight); // Display
+		ctx.translate(x, y); // Rückdrehung
+		ctx.rotate(-this.angle * Math.PI / 180);
+		ctx.translate(-x, -y);
 	}
 	
 	

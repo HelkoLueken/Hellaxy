@@ -4,10 +4,11 @@ class Screen{
 		this.offsetX = 0;
 		this.offsetY = 0;
 		this.color = trySet(color, "black");
-		this.theme = trySet(hellaxy.audio[theme], new Audio);
 		this.gui = trySet(gui, function(){});
 		this.bodies = [];
 		this.scale = 1;
+		
+		this.setTheme(theme);
 		
 		if (exists(ID)) hellaxy.screens[ID] = this;
 	}
@@ -40,15 +41,11 @@ class Screen{
 	
 	
 	drawBar(x, y, width, height, color, ratio){
-		hellaxy.ctx.fillStyle = "black";
-		if (this.color == "black") hellaxy.ctx.fillStyle = "white";
-		x = hellaxy.ctx.canvas.width * x /100;
-		y = hellaxy.ctx.canvas.height * y / 100;
-		width = hellaxy.ctx.canvas.width * width /100;
-		height = hellaxy.ctx.canvas.height * height / 100;
-		hellaxy.ctx.fillRect(x, y, width, height);
-		hellaxy.ctx.fillStyle = color;
-		hellaxy.ctx.fillRect(x + height * 0.1, y + 0.1 * height , (width - 0.2 * height) * ratio, height * 0.8);
+		ctx.fillStyle = "black";
+		if (this.color == "black") ctx.fillStyle = "white";
+		ctx.fillRect(x, y, width, height);
+		ctx.fillStyle = color;
+		ctx.fillRect(x + height * 0.1, y + 0.1 * height , (width - 0.2 * height) * ratio, height * 0.8);
 	}
 	
 	
@@ -82,8 +79,8 @@ class Screen{
 	
 	
 	draw(){
-		hellaxy.ctx.fillStyle = this.color;
-		hellaxy.ctx.fillRect(0, 0, hellaxy.ctx.canvas.width, hellaxy.ctx.canvas.height);
+		ctx.fillStyle = this.color;
+		ctx.fillRect(0, 0, 1920, 1080);
 		for (let i = 0; i < this.bodies.length; i++){
 			this.bodies[i].draw();
 		}
@@ -97,5 +94,12 @@ class Screen{
 			this.bodies[i].move();
 			if (this.bodies[i].x < -200 ||this.bodies[i].y < -200 ||this.bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);
 		}
+	}
+	
+	
+	
+	setTheme(themeName){
+		this.theme = trySet(hellaxy.audio[themeName], new Audio());
+		this.theme.loop = true;
 	}
 }
