@@ -8,9 +8,7 @@ var audioFiles = [
 	"shot1.mp3",
 	"shot2.mp3",
 	"shot_light_high pitch.mp3",
-	"theme1.mp3",
-	"theme_central.mp3",
-	"theme_imperial.mp3",
-	"theme_omar.mp3",
-	"theme_outer.mp3",
+	"theme_main.mp3",
+	"theme_spooky.mp3",
+	"theme_title.mp3",
 ]

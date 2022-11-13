@@ -13,7 +13,7 @@ Array.prototype.append = function(addition){
 }
 
 
-//Fuer init von Objektparametern
+//For init of properties
 function trySet(setTo, deflt){
 	if (exists(setTo)){
 		return setTo;
@@ -78,27 +78,6 @@ function intervalReact(trigger, delay, ID){
 
 
 /*
-function getImg(img){
-	if (Helon.ress.images.loaded === 0){
-		console.log("Warning: No images loaded yet! Returned new image");
-		return new Image();
-	}
-	if (!exists(img)){
-		img = "cross";
-		console.log("Warning: Created Image without ID. Returned dummy instead");
-	}
-	if (!exists(img.src)){
-		for (var a in Helon.ress.images){
-			if (a === img) img = Helon.ress.images[img];
-		}
-	}
-	if (!exists(img.src)){
-		console.log("Warning: Could not find Image in Storage:", img);
-		img = Helon.ress.images["cross"];
-	}
-	return img;
-}
-
 
 
 function getAudio(aud){
@@ -117,15 +96,7 @@ function getAudio(aud){
 
 
 
-function play(sound){
-	if (Helon.muted || sound === undefined || sound === "none") return;
-	if (typeof sound !== "object") sound = Helon.ress.audio[sound];
-	if (sound.currentTime === 0 || sound.ended){
-		sound.play();
-	} else {
-		if (sound.currentTime > 0.2) sound.currentTime = 0;
-	}
-}
+
 
 
 

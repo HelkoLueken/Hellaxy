@@ -1,6 +1,79 @@
-﻿function setupSpace(){ // Achtung: Space ist nur der Screen für die Darstellung und zum Aufruf der Physik. Die Spielobjekte Planeten, projektile usw, liegen aber sortiert als Eigenschaften am Hellaxy Objekt.
-	Hellaxy.space = new Screen("space", "bg_central", "theme_central");
+﻿class Space extends Screen{
 	
+	
+	
+	
+	
+	
+	constructor(){
+		super("blue");
+	}
+	
+	
+	
+	
+	focus(on){
+		this.offsetX = on.x - 960 / this.scale;
+		this.offsetY = on.y - 540 / this.scale;
+	}
+}
+
+
+
+
+
+	/*
+	add(bod){
+		if (!exists(bod)){
+			console.log("Alert: Tried to add missing body to:" + this.ID);
+			return;
+		}
+		bod.screen = this;
+		this.bodies.push(bod);
+		if (bod.constructor.name !== "Body") this[bod.constructor.name.toLowerCase() + "s"].push(bod);
+	}
+	
+	
+	
+	
+	clear(){
+		for (var i = 0; i < this.bodies.length; i++){
+			drop(this.#bodies[i]);
+		}
+	}
+	*/
+/*
+	drop(bod){
+		if (!exists(bod)){
+			console.log("Alert: Tried to drop missing body from:" + this.ID);
+			return;
+		}
+		for (var i = 0; i < this.bodies.length; i++){
+			if (bod === this.bodies[i]){
+				this.bodies.splice(i, 1);
+				if (bod.constructor.name !== "Body"){
+					if (this[bod.constructor.name.toLowerCase() + "s"] == undefined) continue;
+					for (var h = 0; h < this[bod.constructor.name.toLowerCase() + "s"].length; h++){
+						if (this[bod.constructor.name.toLowerCase() + "s"][h] === bod) this[bod.constructor.name.toLowerCase() + "s"].splice(h, 1);
+					}
+				}
+				break;
+			}
+		}
+	}
+	*/
+	
+	
+	
+	/*
+	physics(){
+		for (var i = 0; i < this.#bodies.length; i++){
+			this.#bodies[i].move();
+			if (this.#bodies[i].x < -200 ||this.#bodies[i].y < -200 ||this.#bodies[i].x > this.width + 200 || this.bodies[i].y > this.height + 200) this.drop(this.bodies[i]);
+		}
+	}
+	*/
+/*	
 	Hellaxy.space.act = function(){
 		this.dropDistantBodys();
 		this.controlSpawning();
@@ -41,12 +114,12 @@
 			Hellaxy.ships[i].move();
 		}
 
-		/*
+		
 		for (var i = 0; i < this.ships.length; i++){
 			for (var s = i+1; s < this.ships.length; s++){
 				if (this.ships[i].collidesWith(this.ships[s])) this.ships[i].collideWith(this.ships[s]);
 			}
-		}*/
+		}
 	}
 	
 	
@@ -88,7 +161,6 @@
 	Hellaxy.space.zoomOut = function(){
 		if (intervalReact(this.scale > 0.75, 250, "zoom")) this.scale -= 0.25;
 	}
-}
 
 
 
@@ -106,3 +178,6 @@ function spawnAsteroids(x, y, width, height){
 function stopAllSpawning(){
 	for (planet in Hellaxy.planets) Hellaxy.planets[planet].stopSpawning();
 }
+
+*/
+

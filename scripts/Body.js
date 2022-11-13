@@ -1,6 +1,10 @@
 class Body{
 	/** A movable object that can be displayed on the Canvas element
 	*/
+	
+	#skin = new Image();
+	
+	
 	constructor(){
 		this.x = 0;
 		this.y = 0;
@@ -9,7 +13,6 @@ class Body{
 		this.a = 0;
 		this.angle = 0;
 		this.vangle = 0;
-		this.skin = new Image();
 		this.mass = 1;
 		this.width = 1;
 		this.height = 1;
@@ -56,7 +59,7 @@ class Body{
 		ctx.translate(x, y); // Drehung
 		ctx.rotate(this.angle * Math.PI / 180);
 		ctx.translate(-x, -y);
-		ctx.drawImage(this.skin, visibleX, visibleY, visibleWidth, visibleHeight); // Display
+		ctx.drawImage(this.#skin, visibleX, visibleY, visibleWidth, visibleHeight); // Display
 		ctx.translate(x, y); // Rückdrehung
 		ctx.rotate(-this.angle * Math.PI / 180);
 		ctx.translate(-x, -y);
@@ -128,9 +131,9 @@ class Body{
 	
 	
 	setSkin(to){
-		this.skin = hellaxy.images[to];
-		this.width = this.skin.naturalWidth;
-		this.height = this.skin.naturalHeight;
+		this.#skin = Image.get(to);
+		this.width = this.#skin.naturalWidth;
+		this.height = this.#skin.naturalHeight;
 	}
 	
 	

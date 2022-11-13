@@ -11,6 +11,27 @@
 	<body bgcolor="#444444" onload=fitCanvasToWindow()>
 		<p align = "Center">
 	    <Canvas id="canvas" Width=1920 Height=1080 style="border:1px solid #000000; cursor: none"></Canvas>
+	    <script type="text/javascript">
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+			
+			function fitCanvasToWindow(){
+				canvas.width = window.innerWidth - 20;
+				canvas.height = canvas.width * (9/16);
+				if (canvas.height > window.innerHeight - 40){
+					canvas.height = window.innerHeight - 40;
+					canvas.width = canvas.height * (16/9);
+				}
+				ctx.resetTransform();
+				ctx.scale(canvas.width/1920, canvas.height / 1080);
+			}
+			
+			fitCanvasToWindow();
+			
+			window.addEventListener('resize', function(event) {
+				fitCanvasToWindow()
+			});
+		</script>
 	</body>
 
 
@@ -18,39 +39,23 @@
 	<!--  Import external Scripts -->
 	<script src="image/.index.js"></script>
 	<script src="audio/.index.js"></script>
-	<script src="scripts/tools.js"></script>
-	<script src="scripts/hellaxy-main.js"></script>
-	<script src="scripts/screen.js"></script>
-	<script src="scripts/body.js"></script>
-	<script src="scripts/input.js"></script>
+	<script src="scripts/jsTools.js"></script>
+	<script src="scripts/Image.js"></script>
+	<script src="scripts/Audio.js"></script>
+	<script src="scripts/Screen.js"></script>
+	<script src="scripts/Body.js"></script>
+	<script src="scripts/Cursor.js"></script>
+	<script src="scripts/Space.js"></script>
+	<script src="scripts/Key.js"></script>
+	<script src="scripts/HellaxyMain.js"></script>
 	
-	
-	
-	<!-- Main-script that starts the game procedure -->
 	<script type="text/javascript">
-	
-		var canvas = document.getElementById("canvas");
-		var ctx = canvas.getContext("2d");
-		
-		function fitCanvasToWindow(){
-			canvas.width = window.innerWidth - 20;
-			canvas.height = canvas.width * (9/16);
-			if (canvas.height > window.innerHeight - 40){
-				canvas.height = window.innerHeight - 40;
-				canvas.width = canvas.height * (16/9);
-			}
-			ctx.resetTransform();
-			ctx.scale(canvas.width/1920, canvas.height / 1080);
-		}
-		
-		fitCanvasToWindow();
-		
-		window.addEventListener('resize', function(event) {
-			fitCanvasToWindow()
-		});
-		
-		hellaxy.runOn(canvas);
-
+		Image.loadAllFiles();
+		Audio.loadAllFiles();
+		var cursor = new Cursor();
+		Key.init();
+		Hellaxy.start();
 	</script>
+	
 
 </html>
